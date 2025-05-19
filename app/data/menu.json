@@ -1,0 +1,42 @@
+{
+  "categories": [
+    {
+      "id": "1",
+      "name": "おすすめ"
+    },
+    {
+      "id": "2",
+      "name": "ドリンク"
+    },
+    {
+      "id": "3",
+      "name": "フード"
+    }
+  ],
+  "items": [
+    {
+      "id": "1",
+      "categoryId": "1",
+      "name": "アイスコーヒー",
+      "price": 300,
+      "description": "香り高いアイスコーヒーです。",
+      "image": "/images/ice_coffee.jpg"
+    },
+    {
+      "id": "2",
+      "categoryId": "2",
+      "name": "ホットコーヒー",
+      "price": 250,
+      "description": "心温まるホットコーヒーです。",
+      "image": "/images/hot_coffee.jpg"
+    },
+    {
+      "id": "3",
+      "categoryId": "3",
+      "name": "サンドイッチ",
+      "price": 500,
+      "description": "新鮮な野菜を使ったサンドイッチです。",
+      "image": "/images/sandwich.jpg"
+    }
+  ]
+}
