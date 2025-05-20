@@ -1,6 +1,29 @@
-import menuData from "../data/menu.json";
+import React from "react";
 
-const Menu = () => {
+interface MenuItem {
+  id: string;
+  categoryId: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+}
+
+interface MenuData {
+  categories: Category[];
+  items: MenuItem[];
+}
+
+interface MenuProps {
+  menuData: MenuData;
+}
+
+const Menu: React.FC<MenuProps> = ({ menuData }) => {
   return (
     <div>
       {menuData.categories.map((category) => (
@@ -9,12 +32,12 @@ const Menu = () => {
           <ul>
             {menuData.items
               .filter((item) => item.categoryId === category.id)
-              .map(({ id, name, description, price, image }) => (
-                <li key={id}>
-                  <h3>{name}</h3>
-                  <p> {description}</p>
-                  <p>{price}円</p>
-                  <img src={image} alt={name} />
+              .map((item) => (
+                <li key={item.id}>
+                  <h3>{item.name}</h3>
+                  <p>{item.description}</p>
+                  <p>{item.price}円</p>
+                  <img src={item.image} alt={item.name} />
                 </li>
               ))}
           </ul>
