@@ -20,7 +20,7 @@
       "name": "アイスコーヒー",
       "price": 300,
       "description": "香り高いアイスコーヒーです。",
-      "image": "/images/ice_coffee.jpg"
+      "image": "https://placehold.jp/150x150.png"
     },
     {
       "id": "2",
@@ -28,7 +28,7 @@
       "name": "ホットコーヒー",
       "price": 250,
       "description": "心温まるホットコーヒーです。",
-      "image": "/images/hot_coffee.jpg"
+      "image": "https://placehold.jp/150x150.png"
     },
     {
       "id": "3",
@@ -36,7 +36,7 @@
       "name": "サンドイッチ",
       "price": 500,
       "description": "新鮮な野菜を使ったサンドイッチです。",
-      "image": "/images/sandwich.jpg"
+      "image": "https://placehold.jp/150x150.png"
     }
   ]
 }
