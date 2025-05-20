@@ -33,7 +33,12 @@ const Menu: React.FC<MenuProps> = ({ menuData }) => {
             {menuData.items
               .filter((item) => item.categoryId === category.id)
               .map((item) => (
-                <li key={item.id}>
+                <li
+                  key={item.id}
+                  onClick={() => {
+                    window.location.href = `/menu/${item.id}`;
+                  }}
+                >
                   <h3>{item.name}</h3>
                   <p>{item.description}</p>
                   <p>{item.price}円</p>
