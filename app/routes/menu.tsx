@@ -1,10 +1,13 @@
 import Menu from "~/components/Menu";
-import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import menuData from "~/data/menu.json";
 
 export async function loader() {
-  return json(menuData);
+  return new Response(JSON.stringify(menuData, null, 2), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
 
 export default function MenuRoute() {
