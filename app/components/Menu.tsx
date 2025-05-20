@@ -1,4 +1,3 @@
-import React from "react";
 import menuData from "../data/menu.json";
 
 const Menu = () => {
@@ -10,12 +9,12 @@ const Menu = () => {
           <ul>
             {menuData.items
               .filter((item) => item.categoryId === category.id)
-              .map((item) => (
-                <li key={item.id}>
-                  <h3>{item.name}</h3>
-                  <p>{item.description}</p>
-                  <p>{item.price}円</p>
-                  <img src={item.image} alt={item.name} />
+              .map(({ id, name, description, price, image }) => (
+                <li key={id}>
+                  <h3>{name}</h3>
+                  <p> {description}</p>
+                  <p>{price}円</p>
+                  <img src={image} alt={name} />
                 </li>
               ))}
           </ul>
