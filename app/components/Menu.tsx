@@ -25,24 +25,29 @@ interface MenuProps {
 
 const Menu: React.FC<MenuProps> = ({ menuData }) => {
   return (
-    <div>
+    <div className="container mx-auto py-4">
       {menuData.categories.map((category) => (
-        <div key={category.id}>
-          <h2>{category.name}</h2>
-          <ul>
+        <div key={category.id} className="mx-4 mb-8">
+          <h2 className="text-2xl font-bold mb-2">{category.name}</h2>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {menuData.items
               .filter((item) => item.categoryId === category.id)
               .map((item) => (
                 <li
                   key={item.id}
+                  className="bg-orange-100 rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300"
                   onClick={() => {
                     window.location.href = `/menu/${item.id}`;
                   }}
                 >
-                  <h3>{item.name}</h3>
-                  <p>{item.description}</p>
-                  <p>{item.price}円</p>
-                  <img src={item.image} alt={item.name} />
+                  <h3 className="text-xl font-semibold">{item.name}</h3>
+                  <p className="text-gray-600">{item.description}</p>
+                  <p className="text-gray-800">{item.price}円</p>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-32 object-cover rounded-md mt-2"
+                  />
                 </li>
               ))}
           </ul>
