@@ -1,20 +1,17 @@
 import Menu from "~/components/Menu";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import menuData from "~/data/menu.json";
 
 export async function loader() {
-  return new Response(JSON.stringify(menuData, null, 2), {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return json(menuData);
 }
 
 export default function MenuRoute() {
   const menu = useLoaderData<typeof loader>();
   return (
-    <div className="m-4">
-      <h1 className="text-2xl font-bold">メニュー</h1>
+    <div className="container mx-auto py-4">
+      <h1 className="text-3xl font-bold 2mb-">メニュー</h1>
       <Menu menuData={menu} />
     </div>
   );

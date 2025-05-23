@@ -27,15 +27,15 @@ const Menu: React.FC<MenuProps> = ({ menuData }) => {
   return (
     <div className="container mx-auto py-4">
       {menuData.categories.map((category) => (
-        <div key={category.id} className="mx-4 mb-8">
-          <h2 className="text-2xl font-bold mb-2">{category.name}</h2>
+        <div key={category.id} className="mb-8">
+          <h2 className="text-2xl font-bold mb-">{category.name}</h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {menuData.items
               .filter((item) => item.categoryId === category.id)
               .map((item) => (
                 <li
                   key={item.id}
-                  className="bg-orange-100 rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300"
+                  className="rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300 bg-white"
                   onClick={() => {
                     window.location.href = `/menu/${item.id}`;
                   }}
