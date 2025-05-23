@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@remix-run/react";
 
 interface MenuItem {
   id: string;
@@ -36,18 +37,17 @@ const Menu: React.FC<MenuProps> = ({ menuData }) => {
                 <li
                   key={item.id}
                   className="rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300 bg-white"
-                  onClick={() => {
-                    window.location.href = `/menu/${item.id}`;
-                  }}
                 >
-                  <h3 className="text-xl font-semibold">{item.name}</h3>
-                  <p className="text-gray-600">{item.description}</p>
-                  <p className="text-gray-800">{item.price}円</p>
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-32 object-cover rounded-md mt-2"
-                  />
+                  <Link to={`/menu/${item.id}`}>
+                    <h3 className="text-xl font-semibold">{item.name}</h3>
+                    <p className="text-gray-600">{item.description}</p>
+                    <p className="text-gray-800">{item.price}円</p>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-32 object-cover rounded-md mt-2"
+                    />
+                  </Link>
                 </li>
               ))}
           </ul>
