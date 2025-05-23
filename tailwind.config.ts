@@ -22,6 +22,12 @@ export default {
           "Noto Color Emoji",
         ],
       },
+      extend: {
+        square: {
+          width: "100%",
+          height: "100%",
+        },
+      },
     },
   },
   plugins: [],

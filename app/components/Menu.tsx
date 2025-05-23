@@ -57,5 +57,4 @@ const Menu: React.FC<MenuProps> = ({ menuData }) => {
   );
 };
 
-console.log("test");
 export default Menu;
