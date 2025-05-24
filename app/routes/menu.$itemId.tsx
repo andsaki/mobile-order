@@ -43,7 +43,7 @@ export default function MenuItemRoute() {
       <h1 className="text-3xl font-bold my-4">{item.name}</h1>
       <p className="mb-4">{item.description}</p>
       <p className="mb-4">{item.price}円</p>
-      <div className="mb-4">
+      <div className="mb-12">
         <label htmlFor="quantity" className="mr-2">
           数量:
         </label>
@@ -61,15 +61,17 @@ export default function MenuItemRoute() {
           +
         </button>
       </div>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
-        カートに入れる
-      </button>
-      <Link
-        to="/menu"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        戻る
-      </Link>
+      <div className="flex justify-center">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">
+          カートに入れる
+        </button>
+        <Link
+          to="/menu"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          戻る
+        </Link>
+      </div>
     </div>
   );
 }
