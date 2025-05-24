@@ -3,8 +3,8 @@ import { Link } from "@remix-run/react";
 import { FaWineBottle, FaHamburger } from "react-icons/fa";
 
 interface MenuItem {
-  id: number;
-  categoryId: number;
+  id: string;
+  categoryId: string;
   name: string;
   price: number;
   description: string;
@@ -12,9 +12,9 @@ interface MenuItem {
 }
 
 interface Category {
-  id: number;
+  id: string;
   name: string;
-  categoryId: number;
+  categoryId: string;
 }
 
 interface MenuData {
@@ -31,10 +31,10 @@ const Menu: React.FC<MenuProps> = ({ menuData }) => {
     <div className="container mx-auto py-4">
       {menuData.categories.map((category) => (
         <div key={category.id} className="mb-8">
-          <h2 className="text-2xl mb-4 font-bold flex items-center">
-            {category.name}{" "}
-            {category.categoryId === 2 && <FaWineBottle className="ml-2" />}
-            {category.categoryId === 3 && <FaHamburger className="ml-2" />}
+          <h2 className="text-2xl mb-4 font-bold flex items-start">
+            {category.name}
+            {category.categoryId === "2" && <FaWineBottle className="ml-2" />}
+            {category.categoryId === "3" && <FaHamburger className="ml-2" />}
           </h2>
           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {menuData.items

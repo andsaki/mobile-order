@@ -1,41 +1,41 @@
 {
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "name": "おすすめ",
-      "categoryId": 1
+      "categoryId": "1"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "ドリンク",
-      "categoryId": 2
+      "categoryId": "2"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "フード",
-      "categoryId": 3
+      "categoryId": "3"
     }
   ],
   "items": [
     {
-      "id": 1,
-      "categoryId": 1,
+      "id": "1",
+      "categoryId": "1",
       "name": "アイスコーヒー",
       "price": 300,
       "description": "香り高いアイスコーヒーです。",
       "image": "https://placehold.jp/150x150.png"
     },
     {
-      "id": 2,
-      "categoryId": 2,
+      "id": "2",
+      "categoryId": "2",
       "name": "ホットコーヒー",
       "price": 250,
       "description": "心温まるホットコーヒーです。",
       "image": "https://placehold.jp/150x150.png"
     },
     {
-      "id": 3,
-      "categoryId": 3,
+      "id": "3",
+      "categoryId": "3",
       "name": "サンドイッチ",
       "price": 500,
       "description": "新鮮な野菜を使ったサンドイッチです。",
