@@ -48,15 +48,17 @@ const Menu: React.FC<MenuProps> = ({ menuData }) => {
                   key={item.id}
                   className="rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300 bg-white"
                 >
-                  <Link to={`/menu/${item.id}`}>
-                    <h3 className="text-xl font-semibold">{item.name}</h3>
-                    <p className="text-gray-600">{item.description}</p>
-                    <p className="text-gray-800">{item.price}円</p>
+                  <Link to={`/menu/${item.id}`} className="flex">
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-full h-32 object-cover rounded-md mt-2"
+                      className="w-32 h-32 object-cover rounded-md mr-4"
                     />
+                    <div>
+                      <h3 className="text-xl font-semibold">{item.name}</h3>
+                      <p className="text-gray-600">{item.description}</p>
+                      <p className="text-gray-800">{item.price}円</p>
+                    </div>
                   </Link>
                 </li>
               ))}
