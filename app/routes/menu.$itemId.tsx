@@ -28,7 +28,6 @@ export async function loader({ params }: { params: { itemId: string } }) {
 }
 
 export default function MenuItemRoute() {
-  console.log("呼ばれた");
   const item = useLoaderData<MenuItem>();
 
   return (

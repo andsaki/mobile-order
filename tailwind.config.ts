@@ -7,7 +7,7 @@ export default {
       colors: {
         primary: "#ff8c00",
         secondary: "#007bff",
-        background: "#ffffff",
+        background: "#e0f2fe", // Sky 100
         text: "#000000",
       },
       fontFamily: {
