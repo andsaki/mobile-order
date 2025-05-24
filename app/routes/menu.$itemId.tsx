@@ -43,7 +43,7 @@ export default function MenuItemRoute() {
       <h1 className="text-3xl font-bold my-4">{item.name}</h1>
       <p className="mb-4">{item.description}</p>
       <p className="mb-4">{item.price}円</p>
-      <div>
+      <div className="mb-4">
         <label htmlFor="quantity" className="mr-2">
           数量:
         </label>
