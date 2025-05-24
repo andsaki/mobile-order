@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData, Link } from "@remix-run/react";
 import { useActionData } from "@remix-run/react";
 import menuData from "~/data/menu.json";
@@ -29,6 +29,7 @@ export async function loader({ params }: { params: { itemId: string } }) {
 
 export default function MenuItemRoute() {
   const item = useLoaderData<MenuItem>();
+  const [quantity, setQuantity] = useState(1);
 
   return (
     <div className="rounded-lg p-4 cursor-pointer transition duration-300 bg-white">
@@ -42,6 +43,27 @@ export default function MenuItemRoute() {
       <h1 className="text-3xl font-bold my-4">{item.name}</h1>
       <p className="mb-4">{item.description}</p>
       <p className="mb-4">{item.price}円</p>
+      <div>
+        <label htmlFor="quantity" className="mr-2">
+          数量:
+        </label>
+        <button
+          className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded-full mr-1 w-8 h-8"
+          onClick={() => setQuantity(quantity - 1)}
+        >
+          -
+        </button>
+        <span className="w-20 border rounded px-2 py-1 mx-2">{quantity}</span>
+        <button
+          className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded-full w-8 h-8"
+          onClick={() => setQuantity(quantity + 1)}
+        >
+          +
+        </button>
+      </div>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+        カートに入れる
+      </button>
       <Link
         to="/menu"
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
