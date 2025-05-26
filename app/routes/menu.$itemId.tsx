@@ -62,7 +62,12 @@ export default function MenuItemRoute() {
         </button>
       </div>
       <div className="flex justify-center">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"
+          onClick={() => {
+            addToCart(item, quantity);
+          }}
+        >
           カートに入れる
         </button>
         <Link
@@ -74,4 +79,32 @@ export default function MenuItemRoute() {
       </div>
     </div>
   );
+}
+
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+function addToCart(item: MenuItem, quantity: number) {
+  let cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
+  const existingItemIndex = cart.findIndex(
+    (cartItem) => cartItem.id === item.id
+  );
+
+  if (existingItemIndex !== -1) {
+    cart[existingItemIndex].quantity += quantity;
+  } else {
+    cart.push({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: quantity,
+    });
+  }
+
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+  alert(`${item.name}をカートに追加しました！`);
 }
