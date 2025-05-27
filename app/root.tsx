@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "@remix-run/react";
 
 import "./tailwind.css";
@@ -24,6 +25,9 @@ export const links: LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
   return (
     <html lang="en" className="bg-background text-text">
       <head>
@@ -36,9 +40,29 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
-        <div className="fixed bottom-0 left-0 w-full bg-gray-100 p-4 flex justify-around">
-          <Link to="/menu">メニュー</Link>
-          <Link to="/cart">カート</Link>
+        <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200">
+          <div className="grid grid-cols-2">
+            <Link
+              to="/menu"
+              className={`p-4 text-center ${
+                isActive("/menu")
+                  ? "text-blue-600 font-semibold border-b-2 border-blue-600"
+                  : "text-gray-600"
+              } hover:bg-gray-50`}
+            >
+              メニュー
+            </Link>
+            <Link
+              to="/cart"
+              className={`p-4 text-center ${
+                isActive("/cart")
+                  ? "text-blue-600 font-semibold border-b-2 border-blue-600"
+                  : "text-gray-600"
+              } hover:bg-gray-50`}
+            >
+              カート
+            </Link>
+          </div>
         </div>
       </body>
     </html>
