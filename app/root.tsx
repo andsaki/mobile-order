@@ -36,7 +36,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
-        <Link to="/cart">カートリンク</Link>
+        <div className="fixed bottom-0 left-0 w-full bg-gray-100 p-4 flex justify-around">
+          <Link to="/menu">メニュー</Link>
+          <Link to="/cart">カート</Link>
+        </div>
       </body>
     </html>
   );

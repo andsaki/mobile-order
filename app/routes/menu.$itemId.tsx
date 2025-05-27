@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useLoaderData, Link } from "@remix-run/react";
-import { useActionData } from "@remix-run/react";
 import menuData from "~/data/menu.json";
 
 interface MenuItem {
@@ -88,8 +87,13 @@ interface CartItem {
   quantity: number;
 }
 
+/**
+ * カートに入れるボタン
+ * @param item
+ * @param quantity
+ */
 function addToCart(item: MenuItem, quantity: number) {
-  let cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
+  const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
   const existingItemIndex = cart.findIndex(
     (cartItem) => cartItem.id === item.id
   );
