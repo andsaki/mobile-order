@@ -33,6 +33,27 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+        // GitHub Pages SPA redirect handling
+        (function(l) {
+          if (l.search[1] === '/') {
+            var decoded = sessionStorage.redirect || '';
+            if (decoded) {
+              sessionStorage.removeItem('redirect');
+              l.replace(decoded);
+            }
+          }
+        }(window.location));
+        
+        // Store the current path for GitHub Pages
+        if (window.location.pathname !== '/mobile-order/' && !sessionStorage.redirect) {
+          sessionStorage.redirect = window.location.pathname + window.location.search + window.location.hash;
+        }
+      `,
+          }}
+        />
         <Meta />
         <Links />
       </head>
