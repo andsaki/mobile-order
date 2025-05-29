@@ -5,22 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mobile Order</title>
     <script>
-      // GitHub Pages用のクライアントサイドルーティング
+      // GitHub Pages SPA redirect
       (function (l) {
-        if (l.search[1] === "/") {
-          var decoded = sessionStorage.redirect || l.pathname;
-          if (decoded) {
-            window.history.replaceState(null, null, decoded);
-          }
-        }
+        var redirect = l.pathname + l.search + l.hash;
+        l.replace("/mobile-order/?/" + redirect.slice(1));
       })(window.location);
     </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script>
-      // メインアプリケーションにリダイレクト
-      window.location.href = "/mobile-order/";
-    </script>
+    <div>Redirecting...</div>
   </body>
 </html>
