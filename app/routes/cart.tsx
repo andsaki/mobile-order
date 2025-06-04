@@ -69,7 +69,7 @@ export default function CartRoute() {
           ))}
         </ul>
       )}
-      <p className="text-xl font-bold my-4 bg-yellow-200 p-2 rounded-md">
+      <p className="text-xl font-bold my-4 bg-yellow-400 text-black p-2 rounded-md">
         合計: {totalPrice}円
       </p>
       <div className="flex justify-center">
