@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
   Link,
@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLocation,
+  useRouteError,
 } from "@remix-run/react";
 
 import "./tailwind.css";
@@ -28,6 +29,7 @@ export const links: LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
+  const error = useRouteError();
 
   const isActive = (path: string) => location.pathname === path;
   return (
@@ -60,7 +62,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="bg-background text-text">
-        {children}
+        {useRouteError() ? <ErrorBoundary>{children}</ErrorBoundary> : children}
         <ScrollRestoration />
         <Scripts />
         <ToastContainer />
@@ -95,4 +97,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return <Outlet />;
+}
+
+function ErrorBoundary({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
+      <h1>Oh no!</h1>
+      <p>Looks like something went wrong.</p>
+      {children}
+    </div>
+  );
 }
