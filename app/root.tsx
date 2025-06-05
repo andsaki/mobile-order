@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
   useLocation,
   useRouteError,
+  useSearchParams,
 } from "@remix-run/react";
 
 import "./tailwind.css";
@@ -30,6 +31,10 @@ export const links: LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const error = useRouteError();
+  // URLから検索パラメータを取得
+  const [searchParams] = useSearchParams();
+  const tableId = searchParams.get("tableId");
+  const isShowErrorBoundary = error || !tableId;
 
   const isActive = (path: string) => location.pathname === path;
   return (
@@ -62,7 +67,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="bg-background text-text">
-        {useRouteError() ? <ErrorBoundary>{children}</ErrorBoundary> : children}
+        {isShowErrorBoundary ? <ErrorBoundary /> : children}
         <ScrollRestoration />
         <Scripts />
         <ToastContainer />
@@ -99,12 +104,11 @@ export default function App() {
   return <Outlet />;
 }
 
-function ErrorBoundary({ children }: { children: React.ReactNode }) {
+function ErrorBoundary() {
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <h1>Oh no!</h1>
       <p>Looks like something went wrong.</p>
-      {children}
     </div>
   );
 }
