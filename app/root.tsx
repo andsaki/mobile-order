@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
 import {
   Links,
   Link,
@@ -8,12 +8,40 @@ import {
   ScrollRestoration,
   useLocation,
   useRouteError,
-  useSearchParams,
+  useLoaderData,
 } from "@remix-run/react";
 
 import "./tailwind.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getSession, commitSession } from "~/utils/session.server";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  let tableId: string | undefined = session.get("tableId");
+
+  console.log("session tableId:", tableId);
+
+  const searchParams = new URL(request.url).searchParams;
+  const urlTableId = searchParams.get("tableId");
+
+  if (urlTableId) {
+    tableId = urlTableId;
+    session.set("tableId", tableId);
+    return new Response(JSON.stringify({ tableId }), {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  return new Response(JSON.stringify({ tableId }), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -31,9 +59,7 @@ export const links: LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const error = useRouteError();
-  // URLから検索パラメータを取得
-  const [searchParams] = useSearchParams();
-  const tableId = searchParams.get("tableId");
+  const { tableId } = useLoaderData<typeof loader>();
   const isShowErrorBoundary = error || !tableId;
 
   const isActive = (path: string) => location.pathname === path;
