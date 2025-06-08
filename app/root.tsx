@@ -4,8 +4,7 @@ import {
   Link,
   Meta,
   Outlet,
-  // 一時的にコメントアウト
-  // Scripts,
+  Scripts,
   ScrollRestoration,
   useLocation,
   useRouteError,
@@ -49,7 +48,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body className="bg-background text-text">
         {isShowErrorBoundary ? <ErrorBoundary /> : children}
         <ScrollRestoration />
-        {/* <Scripts /> */}
+        <Scripts />
         <ToastContainer />
         <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200">
           <div className="grid grid-cols-2">
