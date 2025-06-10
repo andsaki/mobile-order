@@ -111,5 +111,5 @@ function addToCart(item: MenuItem, quantity: number) {
   }
 
   sessionStorage.setItem("cart", JSON.stringify(cart));
-  toast(`${item.name}をカートに追加しました！`);
+  toast.success(`${item.name}をカートに追加しました！`);
 }
