@@ -10,6 +10,7 @@ import {
   useRouteError,
   useLoaderData,
 } from "@remix-run/react";
+import toast, { Toaster } from "react-hot-toast";
 
 import "./tailwind.css";
 import { getSession, commitSession } from "~/utils/session.server";
@@ -71,6 +72,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="bg-background text-text">
         {isShowErrorBoundary ? <ErrorBoundary /> : children}
+        <Toaster />
         <ScrollRestoration />
         <Scripts />
         <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200">

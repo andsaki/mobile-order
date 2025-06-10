@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLoaderData, Link } from "@remix-run/react";
+import toast from "react-hot-toast";
 import menuData from "~/data/menu.json";
 
 interface MenuItem {
@@ -110,5 +111,5 @@ function addToCart(item: MenuItem, quantity: number) {
   }
 
   sessionStorage.setItem("cart", JSON.stringify(cart));
-  alert(`${item.name}をカートに追加しました！`);
+  toast(`${item.name}をカートに追加しました！`);
 }
