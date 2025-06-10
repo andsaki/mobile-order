@@ -1,41 +1,38 @@
 import { useState } from "react";
 import { useLoaderData, Link } from "@remix-run/react";
 import toast from "react-hot-toast";
-import menuData from "~/data/menu.json";
+import Item from "~/types/item";
 
-interface MenuItem {
-  id: string;
-  categoryId: string;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
-}
+const API_ENDPOINT = "https://andsakiapi.microcms.io/api/v1/items";
+const API_KEY = "KOjYGzOL5TlpVlL8YAZdxka6KEPLlDaBtPW2";
 
 export async function loader({ params }: { params: { itemId: string } }) {
   const itemId = params.itemId;
-  const item = menuData.items.find((item) => item.id === itemId);
-
-  if (!item) {
-    throw new Response("Not Found", { status: 404 });
-  }
-
-  return new Response(JSON.stringify(item, null, 2), {
+  const response = await fetch(`${API_ENDPOINT}/${itemId}`, {
     headers: {
       "Content-Type": "application/json",
+      "X-MICROCMS-API-KEY": API_KEY,
     },
   });
+
+  if (!response.ok) {
+    throw new Response("Not Found", { status: response.status });
+  }
+
+  const item = await response.json();
+
+  return item;
 }
 
 export default function MenuItemRoute() {
-  const item = useLoaderData<MenuItem>();
+  const item = useLoaderData<Item>();
   const [quantity, setQuantity] = useState(1);
 
   return (
     <div className="rounded-lg p-4 cursor-pointer transition duration-300 bg-white">
       <div className="w-full relative aspect-w-1 aspect-h-1">
         <img
-          src={item.image}
+          src={item.image.url}
           alt={item.name}
           className="w-full h-full object-cover rounded-md mt-2 mb-2 square"
         />
@@ -93,7 +90,7 @@ interface CartItem {
  * @param item
  * @param quantity
  */
-function addToCart(item: MenuItem, quantity: number) {
+function addToCart(item: Item, quantity: number) {
   const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
   const existingItemIndex = cart.findIndex(
     (cartItem) => cartItem.id === item.id
