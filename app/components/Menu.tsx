@@ -62,8 +62,10 @@ const Menu: React.FC<MenuProps> = ({ menuData }) => {
                     />
                     <div>
                       <h3 className="text-xl font-semibold">{item.name}</h3>
-                      <p className="text-gray-600">{item.description}</p>
-                      <p className="text-gray-800">{item.price}円</p>
+                      <p className="text-gray-500">{item.description}</p>
+                      <p className="text-black font-bold text-lg">
+                        {item.price}円
+                      </p>
                     </div>
                   </Link>
                 </li>
