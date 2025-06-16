@@ -77,6 +77,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+// エラーバウンダリ内でuseLoaderDataを使用しないためのラッパーコンポーネント
+// tableIdを確認し、存在しない場合はエラーバウンダリを表示、存在する場合は子コンポーネントを表示する
 function AppContent({ children }: { children: React.ReactNode }) {
   const { tableId } = useLoaderData<TableIdData>();
   if (!tableId) {
