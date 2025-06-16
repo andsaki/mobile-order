@@ -10,18 +10,18 @@ interface CartItem {
 }
 
 export default function CartRoute() {
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    try {
-      return JSON.parse(sessionStorage.getItem("cart") || "[]");
-    } catch (error) {
-      console.error("Error parsing cart from sessionStorage:", error);
-      return [];
-    }
-  });
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
-    sessionStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    try {
+      const storedCart = sessionStorage.getItem("cart");
+      if (storedCart) {
+        setCart(JSON.parse(storedCart));
+      }
+    } catch (error) {
+      console.error("Error parsing cart from sessionStorage:", error);
+    }
+  }, []);
 
   const updateQuantity = useCallback(
     (itemId: string, newQuantity: number) => {
