@@ -33,8 +33,6 @@ export const links: LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const error = useRouteError();
-  const { tableId } = useLoaderData<TableIdData>();
-  const isShowErrorBoundary = error || !tableId;
 
   const isActive = (path: string) => location.pathname === path;
   return (
@@ -46,7 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="bg-background text-text">
-        {isShowErrorBoundary ? <ErrorBoundary /> : children}
+        {error ? <ErrorBoundary /> : <AppContent children={children} />}
         <Toaster />
         <ScrollRestoration />
         <Scripts />
@@ -77,6 +75,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
+}
+
+function AppContent({ children }: { children: React.ReactNode }) {
+  const { tableId } = useLoaderData<TableIdData>();
+  if (!tableId) {
+    return <ErrorBoundary />;
+  }
+  return <>{children}</>;
 }
 
 export default function App() {
