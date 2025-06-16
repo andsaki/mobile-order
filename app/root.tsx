@@ -13,34 +13,9 @@ import {
 import { Toaster } from "react-hot-toast";
 
 import "./tailwind.css";
-import { getSession, commitSession } from "~/utils/session.server";
+import { tableIdLoader, type TableIdData } from "~/utils/session.server";
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  let tableId: string | undefined = session.get("tableId");
-
-  console.log("session tableId:", tableId);
-
-  const searchParams = new URL(request.url).searchParams;
-  const urlTableId = searchParams.get("tableId");
-
-  if (urlTableId) {
-    tableId = urlTableId;
-    session.set("tableId", tableId);
-    return new Response(JSON.stringify({ tableId }), {
-      headers: {
-        "Set-Cookie": await commitSession(session),
-        "Content-Type": "application/json",
-      },
-    });
-  }
-
-  return new Response(JSON.stringify({ tableId }), {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-};
+export const loader = tableIdLoader;
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -58,7 +33,7 @@ export const links: LinksFunction = () => [
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const error = useRouteError();
-  const { tableId } = useLoaderData<typeof loader>();
+  const { tableId } = useLoaderData<TableIdData>();
   const isShowErrorBoundary = error || !tableId;
 
   const isActive = (path: string) => location.pathname === path;
