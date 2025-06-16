@@ -72,13 +72,19 @@ export default function CartRoute() {
       <p className="text-xl font-bold my-4 bg-yellow-400 text-black p-2 rounded-md">
         合計: {totalPrice}円
       </p>
-      <div className="flex justify-center">
+      <div className="flex justify-center space-x-4">
         <Link
           to="/menu"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           メニューに戻る
         </Link>
+        <button
+          onClick={() => alert("注文を確定しました")}
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        >
+          注文する
+        </button>
       </div>
     </div>
   );
