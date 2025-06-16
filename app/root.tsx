@@ -10,7 +10,7 @@ import {
   useRouteError,
   useLoaderData,
 } from "@remix-run/react";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 import "./tailwind.css";
 import { getSession, commitSession } from "~/utils/session.server";
