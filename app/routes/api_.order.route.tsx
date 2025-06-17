@@ -1,5 +1,6 @@
 import { json, type ActionFunction } from "@remix-run/node";
 import { commitSession, getSession } from "~/utils/session.server";
+import { createClient } from "@supabase/supabase-js";
 
 export const action: ActionFunction = async ({ request }) => {
   console.log("よばれた");
@@ -29,8 +30,85 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Cart is empty" }, { status: 400 });
   }
 
-  // Here you would typically process the order, e.g., save to a database
-  // For this example, we'll just clear the cart and return a success message
+  // Supabaseを使用して注文データをデータベースに保存する
+  // 環境変数からSupabaseの接続情報を取得
+  // ローカル開発では`.env.local`ファイルに設定してください
+  // 本番環境ではVercelのダッシュボードで環境変数を設定してください
+  const supabaseUrl = process.env.SUPABASE_URL || "";
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+
+  console.log(supabaseUrl, supabaseKey);
+
+  // デバッグ用に環境変数の値をログに出力
+  console.log(
+    "Supabase URL:",
+    supabaseUrl ? "設定されています" : "設定されていません"
+  );
+  console.log(
+    "Supabase Anon Key:",
+    supabaseKey ? "設定されています" : "設定されていません"
+  );
+
+  // Supabase URLが設定されていない場合はエラーを返す
+  if (!supabaseUrl || supabaseUrl.trim() === "") {
+    console.error(
+      "Supabase URLが設定されていません。`.env.local`ファイルまたはVercelの環境変数を確認してください。"
+    );
+    return json(
+      { error: "データベース接続エラー: Supabase URLが設定されていません" },
+      { status: 500 }
+    );
+  }
+
+  // Supabase Keyが設定されていない場合はエラーを返す
+  if (!supabaseKey || supabaseKey.trim() === "") {
+    console.error(
+      "Supabase Anon Keyが設定されていません。`.env.local`ファイルまたはVercelの環境変数を確認してください。"
+    );
+    return json(
+      {
+        error: "データベース接続エラー: Supabase Anon Keyが設定されていません",
+      },
+      { status: 500 }
+    );
+  }
+
+  // Supabase URLの形式を確認
+  try {
+    new URL(supabaseUrl);
+  } catch (e) {
+    console.error(
+      "Supabase URLの形式が無効です。`.env.local`ファイルまたはVercelの環境変数を確認してください。",
+      e
+    );
+    return json(
+      { error: "データベース接続エラー: Supabase URLの形式が無効です" },
+      { status: 500 }
+    );
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // 注文データを保存
+  // SupabaseのAPIでは、操作が成功した場合、errorはnullになり、dataに結果が返されます
+  // 操作が失敗した場合、errorにエラー情報が設定されます
+  const orderId = "ORD-" + Math.floor(Math.random() * 10000);
+  const { data, error } = await supabase.from("orders").insert([
+    {
+      order_id: orderId,
+      cart_items: cart,
+      created_at: new Date().toISOString(),
+    },
+  ]);
+
+  console.log("注文データの保存結果:", data, error);
+
+  if (error !== null) {
+    console.error("注文データの保存に失敗しました:", error);
+    return json({ error: "注文データの保存に失敗しました" }, { status: 500 });
+  }
+
+  console.log("注文データをデータベースに保存しました:", data);
   if (!session) {
     session = await getSession(request.headers.get("Cookie"));
   }
