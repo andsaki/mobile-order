@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLoaderData, Link } from "@remix-run/react";
 import toast from "react-hot-toast";
 import Item from "~/types/item";
+import { CartItem } from "~/types/cartItem";
 
 const API_ENDPOINT = "https://andsakiapi.microcms.io/api/v1/items";
 const API_KEY = "KOjYGzOL5TlpVlL8YAZdxka6KEPLlDaBtPW2";
@@ -76,13 +77,6 @@ export default function MenuItemRoute() {
       </div>
     </div>
   );
-}
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
 }
 
 /**

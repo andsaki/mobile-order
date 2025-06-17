@@ -1,6 +1,7 @@
 import { json, type ActionFunction } from "@remix-run/node";
 import { commitSession, getSession } from "~/utils/session.server";
 import { createClient } from "@supabase/supabase-js";
+import { CartItem } from "~/types/cartItem";
 
 export const action: ActionFunction = async ({ request }) => {
   console.log("よばれた");
@@ -8,7 +9,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Method not allowed" }, { status: 405 });
   }
 
-  let cart = [];
+  let cart: CartItem[] = [];
   let session;
   const formData = await request.formData();
   const cartData = formData.get("cart");
@@ -105,7 +106,15 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (error !== null) {
     console.error("注文データの保存に失敗しました:", error);
-    return json({ error: "注文データの保存に失敗しました" }, { status: 500 });
+    // Supabaseでテーブルが存在しない場合、挿入操作は失敗します
+    // Supabaseのダッシュボードで`orders`テーブルを作成してください
+    // テーブル作成後、再度挿入操作を試みてください
+    const errorMessage = error.message.includes(
+      'relation "orders" does not exist'
+    )
+      ? "データベースエラー: `orders`テーブルが存在しません。Supabaseダッシュボードでテーブルを作成してください。"
+      : "注文データの保存に失敗しました";
+    return json({ error: errorMessage }, { status: 500 });
   }
 
   console.log("注文データをデータベースに保存しました:", data);

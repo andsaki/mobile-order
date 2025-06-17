@@ -1,13 +1,7 @@
 import { Link, useFetcher } from "@remix-run/react";
 import { useState, useEffect, useCallback } from "react";
 import QuantityControl from "~/components/QuantityControl";
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
+import { CartItem } from "~/types/cartItem";
 
 export default function CartRoute() {
   const fetcher = useFetcher();
