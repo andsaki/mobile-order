@@ -1,4 +1,4 @@
-import { Link } from "@remix-run/react";
+import { Link, useFetcher } from "@remix-run/react";
 import { useState, useEffect, useCallback } from "react";
 import QuantityControl from "~/components/QuantityControl";
 
@@ -10,6 +10,7 @@ interface CartItem {
 }
 
 export default function CartRoute() {
+  const fetcher = useFetcher();
   const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
@@ -22,6 +23,27 @@ export default function CartRoute() {
       console.error("Error parsing cart from sessionStorage:", error);
     }
   }, []);
+
+  // 注文APIのレスポンスを監視し、成功した場合にアラートを表示する
+  useEffect(() => {
+    // fetcherの状態が「idle」（処理が完了した状態）かつデータが存在する場合
+    console.log(fetcher.state === "idle" && fetcher.data);
+    if (fetcher.state === "idle" && fetcher.data) {
+      // 型安全にプロパティの存在を確認
+      if (typeof fetcher.data === "object" && fetcher.data !== null) {
+        // 型ガードを使用してプロパティの存在を確認
+        const dataObj = fetcher.data;
+        if ("orderId" in dataObj && typeof dataObj.orderId === "string") {
+          alert(`注文完了：${dataObj.orderId}`);
+          // カートをクリアするなどのUI更新処理をここに追加可能
+          setCart([]);
+          sessionStorage.setItem("cart", JSON.stringify([]));
+        } else if ("error" in dataObj && typeof dataObj.error === "string") {
+          alert(`注文エラー：${dataObj.error}`);
+        }
+      }
+    }
+  }, [fetcher.state, fetcher.data]); // fetcherの状態とデータが変化するたびにこの効果を実行
 
   const updateQuantity = useCallback(
     (itemId: string, newQuantity: number) => {
@@ -80,7 +102,12 @@ export default function CartRoute() {
           メニューに戻る
         </Link>
         <button
-          onClick={() => alert("注文を確定しました")}
+          onClick={() => {
+            fetcher.submit(
+              { cart: JSON.stringify(cart) },
+              { method: "post", action: "/api/order/route" }
+            );
+          }}
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
         >
           注文する
