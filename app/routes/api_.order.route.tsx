@@ -4,7 +4,6 @@ import { createClient } from "@supabase/supabase-js";
 import { CartItem } from "~/types/cartItem";
 
 export const action: ActionFunction = async ({ request }) => {
-  console.log("よばれた");
   if (request.method !== "POST") {
     return json({ error: "Method not allowed" }, { status: 405 });
   }
@@ -13,8 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
   let session;
   const formData = await request.formData();
   const cartData = formData.get("cart");
-
-  if (cartData && typeof cartData === "string") {
+  if (typeof cartData === "string") {
     try {
       cart = JSON.parse(cartData);
     } catch (error) {
@@ -22,11 +20,12 @@ export const action: ActionFunction = async ({ request }) => {
       return json({ error: "Invalid cart data" }, { status: 400 });
     }
   } else {
+    // セッションからカートを取得する処理
     session = await getSession(request.headers.get("Cookie"));
-    cart = session.get("cart") || [];
+    const sessionCart = session.get("cart");
+    cart = Array.isArray(sessionCart) ? sessionCart : [];
     session.set("cart", []);
   }
-
   if (cart.length === 0) {
     return json({ error: "Cart is empty" }, { status: 400 });
   }
@@ -35,8 +34,8 @@ export const action: ActionFunction = async ({ request }) => {
   // 環境変数からSupabaseの接続情報を取得
   // ローカル開発では`.env.local`ファイルに設定してください
   // 本番環境ではVercelのダッシュボードで環境変数を設定してください
-  const supabaseUrl = process.env.SUPABASE_URL || "";
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+  const supabaseUrl = process.env.SUPABASE_URL ?? "";
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
   console.log(supabaseUrl, supabaseKey);
 
