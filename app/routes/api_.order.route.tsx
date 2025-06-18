@@ -1,5 +1,9 @@
 import { json, type ActionFunction } from "@remix-run/node";
-import { commitSession, getSession } from "~/utils/session.server";
+import {
+  commitSession,
+  getSession,
+  getCartFromSession,
+} from "~/utils/session.server";
 import { createClient } from "@supabase/supabase-js";
 import { CartItem } from "~/types/cartItem";
 
@@ -12,20 +16,20 @@ export const action: ActionFunction = async ({ request }) => {
   let session;
   const formData = await request.formData();
   const cartData = formData.get("cart");
-  if (typeof cartData === "string") {
+
+  if (cartData !== null && typeof cartData === "string") {
     try {
-      cart = JSON.parse(cartData);
+      cart = JSON.parse(cartData) as CartItem[];
     } catch (error) {
       console.error("Error parsing cart data from request:", error);
       return json({ error: "Invalid cart data" }, { status: 400 });
     }
   } else {
-    // セッションからカートを取得する処理
     session = await getSession(request.headers.get("Cookie"));
-    const sessionCart = session.get("cart");
-    cart = Array.isArray(sessionCart) ? sessionCart : [];
+    cart = getCartFromSession(session);
     session.set("cart", []);
   }
+
   if (cart.length === 0) {
     return json({ error: "Cart is empty" }, { status: 400 });
   }
