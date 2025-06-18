@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "@remix-run/react";
-import { FaWineBottle, FaHamburger } from "react-icons/fa";
 
 interface MenuItem {
   id: string;

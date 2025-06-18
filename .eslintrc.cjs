@@ -52,11 +52,30 @@ module.exports = {
       },
     },
 
-    // Typescript
+    // TypeScript
     {
       files: ["**/*.{ts,tsx}"],
-      plugins: ["@typescript-eslint", "import"],
       parser: "@typescript-eslint/parser",
+      plugins: ["@typescript-eslint", "import"],
+      extends: [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+      ],
+      parserOptions: {
+        project: "./tsconfig.json", // ←必要に応じてパス修正
+        tsconfigRootDir: __dirname,
+        sourceType: "module",
+      },
+      rules: {
+        "@typescript-eslint/no-explicit-any": "error",
+        "@typescript-eslint/strict-boolean-expressions": "warn",
+        "@typescript-eslint/no-unsafe-assignment": "warn",
+        "@typescript-eslint/no-unsafe-call": "warn",
+        "@typescript-eslint/no-unsafe-member-access": "warn",
+        "@typescript-eslint/no-unsafe-return": "warn",
+      },
       settings: {
         "import/internal-regex": "^~/",
         "import/resolver": {
@@ -67,22 +86,6 @@ module.exports = {
             alwaysTryTypes: true,
           },
         },
-      },
-      extends: [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:import/recommended",
-        "plugin:import/typescript",
-      ],
-      rules: {
-        "@typescript-eslint/no-explicit-any": "error",
-        "@typescript-eslint/strict-boolean-expressions": "warn",
-        "@typescript-eslint/no-unsafe-assignment": "warn",
-        "@typescript-eslint/no-unsafe-call": "warn",
-        "@typescript-eslint/no-unsafe-member-access": "warn",
-        "@typescript-eslint/no-unsafe-return": "warn",
-        // 注: オプショナルチェイニングを警告やエラーとしてフラグする直接的なESLintルールはありません
-        // これは有効なTypeScriptの機能であるためです。エディタで赤くハイライトされない場合があります。
-        // 型安全性を高めるために、追加の厳格な型ルールをここに追加することができます。
       },
     },
 
