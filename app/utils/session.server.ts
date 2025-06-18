@@ -1,5 +1,7 @@
 // app/utils/session.server.ts (サーバー専用)
-import { createCookieSessionStorage, json } from "@remix-run/node";
+import { createCookieSessionStorage, json, Session } from "@remix-run/node";
+
+import { CartItem } from "~/types/cartItem";
 
 const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -14,6 +16,11 @@ const sessionStorage = createCookieSessionStorage({
 
 export const { getSession, commitSession, destroySession } = sessionStorage;
 
+// その後、関数では型安全に使用可能
+export function getCartFromSession(session: Session): CartItem[] {
+  const cartData = session.get("cart");
+  return cartData || [];
+}
 // Loader function for handling table ID session
 import type { LoaderFunction } from "@remix-run/node";
 
