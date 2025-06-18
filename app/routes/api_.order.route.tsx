@@ -109,7 +109,7 @@ export const action: ActionFunction = async ({ request }) => {
     // Supabaseでテーブルが存在しない場合、挿入操作は失敗します
     // Supabaseのダッシュボードで`orders`テーブルを作成してください
     // テーブル作成後、再度挿入操作を試みてください
-    const errorMessage = error.message.includes(
+    const errorMessage = error?.message?.includes(
       'relation "orders" does not exist'
     )
       ? "データベースエラー: `orders`テーブルが存在しません。Supabaseダッシュボードでテーブルを作成してください。"
