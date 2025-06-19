@@ -18,7 +18,10 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export const loader: LoaderFunction = async () => {
-  const { data: tables, error } = await supabase.from("tables").select("*");
+  const { data: tables, error } = await supabase
+    .from("tables")
+    .select("*")
+    .order("id", { ascending: true });
 
   if (error) {
     console.error("テーブルのデータ取得に失敗しました:", error);
@@ -68,6 +71,12 @@ export default function Management() {
   const actionData = useActionData<{ success?: boolean; error?: string }>();
   const navigation = useNavigation();
 
+  const statusMap: Record<string, string> = {
+    available: "利用可能",
+    occupied: "使用中",
+    needs_cleaning: "清掃が必要",
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-4 pb-16">
       <h1 className="text-2xl font-bold text-gray-700 mb-6">テーブル管理</h1>
@@ -96,7 +105,9 @@ export default function Management() {
             <h2 className="text-lg font-semibold mb-2">
               テーブル {table.table_id}
             </h2>
-            <p className="text-gray-600 mb-2">現在の状態: {table.status}</p>
+            <p className="text-gray-600 mb-2">
+              現在の状態: {statusMap[table.status] || table.status}
+            </p>
             <p className="text-sm text-gray-500 mb-4">
               最終更新: {new Date(table.last_updated).toLocaleString()}
             </p>
