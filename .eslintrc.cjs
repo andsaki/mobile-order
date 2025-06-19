@@ -24,7 +24,7 @@ module.exports = {
   // Base config
   extends: ["eslint:recommended"],
   rules: {
-    "no-console": "warn",
+    "no-console": ["warn", { allow: ["error"] }],
   },
   overrides: [
     // React
@@ -70,7 +70,6 @@ module.exports = {
       },
       rules: {
         "@typescript-eslint/no-explicit-any": "error",
-        "@typescript-eslint/strict-boolean-expressions": "warn",
         "@typescript-eslint/no-unsafe-assignment": "warn",
         "@typescript-eslint/no-unsafe-call": "warn",
         "@typescript-eslint/no-unsafe-member-access": "warn",

@@ -1,6 +1,7 @@
 import { Link, useFetcher } from "@remix-run/react";
 import { useState, useEffect, useCallback } from "react";
 import QuantityControl from "~/components/QuantityControl";
+import BottomNav from "~/components/BottomNav";
 import { CartItem } from "~/types/cartItem";
 
 export default function CartRoute() {
@@ -11,17 +12,16 @@ export default function CartRoute() {
     try {
       const storedCart = sessionStorage.getItem("cart");
       if (storedCart) {
-        setCart(JSON.parse(storedCart));
+        const parsedCart = JSON.parse(storedCart) as CartItem[];
+        setCart(parsedCart);
       }
     } catch (error) {
       console.error("Error parsing cart from sessionStorage:", error);
     }
   }, []);
 
-  // 注文APIのレスポンスを監視し、成功した場合にアラートを表示する
+  // 注文APIのレスポンスを監視し、成功した場合にアラートを表示し注文一覧ページへ遷移する
   useEffect(() => {
-    // fetcherの状態が「idle」（処理が完了した状態）かつデータが存在する場合
-    console.log(fetcher.state === "idle" && fetcher.data);
     if (fetcher.state === "idle" && fetcher.data) {
       // 型安全にプロパティの存在を確認
       if (typeof fetcher.data === "object" && fetcher.data !== null) {
@@ -32,6 +32,8 @@ export default function CartRoute() {
           // カートをクリアするなどのUI更新処理をここに追加可能
           setCart([]);
           sessionStorage.setItem("cart", JSON.stringify([]));
+          // 注文一覧ページへ遷移
+          window.location.href = "/orders";
         } else if ("error" in dataObj && typeof dataObj.error === "string") {
           alert(`注文エラー：${dataObj.error}`);
         }
@@ -56,7 +58,7 @@ export default function CartRoute() {
   }
 
   return (
-    <div className="m-4">
+    <div className="m-4 pb-16">
       <h1 className="text-2xl font-bold">カート</h1>
       {cart.length === 0 ? (
         <p className="mb-4">カートは空です。</p>
@@ -107,6 +109,7 @@ export default function CartRoute() {
           注文する
         </button>
       </div>
+      <BottomNav />
     </div>
   );
 }
