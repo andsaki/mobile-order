@@ -30,10 +30,6 @@ export const action: ActionFunction = async ({ request }) => {
     session.set("cart", []);
   }
 
-  if (cart.length === 0) {
-    return json({ error: "Cart is empty" }, { status: 400 });
-  }
-
   // Supabaseを使用して注文データをデータベースに保存する
   // 環境変数からSupabaseの接続情報を取得
   // ローカル開発では`.env.local`ファイルに設定してください
@@ -42,6 +38,33 @@ export const action: ActionFunction = async ({ request }) => {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
   console.log(supabaseUrl, supabaseKey);
+
+  // Log tableId to debug
+  console.log("Form tableId:", tableId);
+  if (!session) {
+    session = await getSession(request.headers.get("Cookie"));
+  }
+  const sessionTableId = session.get("tableId");
+  console.log("Session tableId:", sessionTableId);
+
+  // Use session tableId if form tableId is not provided or is empty
+  const finalTableId =
+    tableId && typeof tableId === "string" && tableId.trim() !== ""
+      ? tableId
+      : sessionTableId;
+  console.log("Final tableId used:", finalTableId);
+
+  if (cart.length === 0) {
+    return json({ error: "Cart is empty" }, { status: 400 });
+  }
+
+  // Check if tableId exists, if not return error to client
+  if (!finalTableId || finalTableId.trim() === "") {
+    return json(
+      { error: "テーブルIDが必要です。QRコードをスキャンしてください。" },
+      { status: 400 }
+    );
+  }
 
   // デバッグ用に環境変数の値をログに出力
   console.log(
@@ -102,7 +125,11 @@ export const action: ActionFunction = async ({ request }) => {
       order_id: orderId,
       cart_items: cart,
       table_id:
-        tableId !== null && tableId !== undefined ? String(tableId) : "unknown",
+        finalTableId !== null &&
+        finalTableId !== undefined &&
+        finalTableId.trim() !== ""
+          ? String(finalTableId)
+          : "unknown",
       created_at: new Date().toISOString(),
       status: "pending", // Initial status for new orders
     },
@@ -126,7 +153,7 @@ export const action: ActionFunction = async ({ request }) => {
   console.log("注文データをデータベースに保存しました:", data);
 
   // 注文が保存された後、対応するテーブルの状態を 'occupied' に更新
-  if (tableId !== null && tableId !== undefined && tableId !== "unknown") {
+  if (tableId) {
     const { data: tableData, error: tableError } = await supabase
       .from("tables")
       .upsert([

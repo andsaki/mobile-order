@@ -2,8 +2,9 @@ import { json, type LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createClient } from "@supabase/supabase-js";
 import BottomNav from "~/components/BottomNav";
+import { getSession, getTableIdFromSession } from "~/utils/session.server";
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
   const supabaseUrl = process.env.SUPABASE_URL ?? "";
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
@@ -14,10 +15,23 @@ export const loader: LoaderFunction = async () => {
     );
   }
 
+  // Get tableId from session
+  const session = await getSession(request.headers.get("Cookie"));
+  const tableId = getTableIdFromSession(session);
+  console.log("Client tableId for filtering orders:", tableId);
+
   const supabase = createClient(supabaseUrl, supabaseKey);
+
+  // If no tableId, return empty orders
+  if (!tableId || tableId.trim() === "") {
+    return json({ orders: [] });
+  }
+
+  // Filter orders by tableId
   const { data: orders, error } = await supabase
     .from("orders")
     .select("*")
+    .eq("table_id", tableId)
     .order("created_at", { ascending: false });
 
   if (error) {
