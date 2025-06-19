@@ -16,7 +16,7 @@ export const action: ActionFunction = async ({ request }) => {
   let session;
   const formData = await request.formData();
   const cartData = formData.get("cart");
-
+  const tableId = formData.get("tableId");
   if (cartData !== null && typeof cartData === "string") {
     try {
       cart = JSON.parse(cartData) as CartItem[];
@@ -101,6 +101,8 @@ export const action: ActionFunction = async ({ request }) => {
     {
       order_id: orderId,
       cart_items: cart,
+      table_id:
+        tableId !== null && tableId !== undefined ? String(tableId) : "unknown",
       created_at: new Date().toISOString(),
     },
   ]);
