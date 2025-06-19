@@ -104,6 +104,7 @@ export const action: ActionFunction = async ({ request }) => {
       table_id:
         tableId !== null && tableId !== undefined ? String(tableId) : "unknown",
       created_at: new Date().toISOString(),
+      status: "pending", // Initial status for new orders
     },
   ]);
 
@@ -123,6 +124,26 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   console.log("注文データをデータベースに保存しました:", data);
+
+  // 注文が保存された後、対応するテーブルの状態を 'occupied' に更新
+  if (tableId !== null && tableId !== undefined && tableId !== "unknown") {
+    const { data: tableData, error: tableError } = await supabase
+      .from("tables")
+      .upsert([
+        {
+          table_id: String(tableId),
+          status: "occupied",
+          last_updated: new Date().toISOString(),
+        },
+      ]);
+
+    if (tableError !== null) {
+      console.error("テーブルの状態更新に失敗しました:", tableError);
+    } else {
+      console.log("テーブルの状態を 'occupied' に更新しました:", tableData);
+    }
+  }
+
   if (!session) {
     session = await getSession(request.headers.get("Cookie"));
   }
