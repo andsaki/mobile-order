@@ -5,6 +5,7 @@ import {
   useNavigation,
 } from "@remix-run/react";
 // app/routes/admin.tsx
+// app/routes/admin.tsx
 import {
   json,
   type LoaderFunction,
@@ -13,6 +14,7 @@ import {
 import { createClient } from "@supabase/supabase-js";
 import BottomNav from "~/components/BottomNav";
 import { getSession, commitSession, isAdmin } from "~/utils/session.server";
+import { z } from "zod";
 
 // Supabase connection setup
 const supabaseUrl = process.env.SUPABASE_URL ?? "";
@@ -57,6 +59,23 @@ export const action: ActionFunction = async ({ request }) => {
   if (actionType === "login") {
     const username = formData.get("username");
     const password = formData.get("password");
+
+    // Zodスキーマによるバリデーション
+    const loginSchema = z.object({
+      username: z
+        .string()
+        .min(1, "ユーザー名を入力してください")
+        .max(10, "ユーザー名は10文字以内にしてください"),
+      password: z.string().min(1, "パスワードを入力してください"),
+    });
+
+    const validationResult = loginSchema.safeParse({ username, password });
+    if (!validationResult.success) {
+      return json(
+        { error: validationResult.error.issues[0].message },
+        { status: 400 }
+      );
+    }
 
     // 簡単な認証ロジック（本番環境ではもっと安全な方法を使用してください）
     if (
