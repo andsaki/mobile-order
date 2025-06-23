@@ -4,6 +4,7 @@ import {
   Form,
   useNavigation,
 } from "@remix-run/react";
+// app/routes/admin.tsx
 import {
   json,
   type LoaderFunction,
@@ -11,13 +12,23 @@ import {
 } from "@remix-run/node";
 import { createClient } from "@supabase/supabase-js";
 import BottomNav from "~/components/BottomNav";
+import { getSession, commitSession, isAdmin } from "~/utils/session.server";
 
 // Supabase connection setup
 const supabaseUrl = process.env.SUPABASE_URL ?? "";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+
+  if (!isAdmin(session)) {
+    return json(
+      { tables: [], isAuthenticated: false, error: "管理者権限が必要です" },
+      { status: 403 }
+    );
+  }
+
   const { data: tables, error } = await supabase
     .from("tables")
     .select("*")
@@ -26,16 +37,63 @@ export const loader: LoaderFunction = async () => {
   if (error) {
     console.error("テーブルのデータ取得に失敗しました:", error);
     return json(
-      { tables: [], error: "テーブルのデータ取得に失敗しました" },
+      {
+        tables: [],
+        isAuthenticated: true,
+        error: "テーブルのデータ取得に失敗しました",
+      },
       { status: 500 }
     );
   }
 
-  return json({ tables });
+  return json({ tables, isAuthenticated: true });
 };
 
 export const action: ActionFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
   const formData = await request.formData();
+  const actionType = formData.get("actionType");
+
+  if (actionType === "login") {
+    const username = formData.get("username");
+    const password = formData.get("password");
+
+    // 簡単な認証ロジック（本番環境ではもっと安全な方法を使用してください）
+    if (
+      (username === "admin" && password === "password") ||
+      (username === "test" && password === "test123")
+    ) {
+      session.set("isAdmin", true);
+      return json(
+        { success: true, message: "ログインに成功しました" },
+        {
+          headers: {
+            "Set-Cookie": await commitSession(session),
+          },
+        }
+      );
+    } else {
+      return json(
+        { error: "ユーザー名またはパスワードが間違っています" },
+        { status: 401 }
+      );
+    }
+  } else if (actionType === "logout") {
+    session.set("isAdmin", false);
+    return json(
+      { success: true, message: "ログアウトしました" },
+      {
+        headers: {
+          "Set-Cookie": await commitSession(session),
+        },
+      }
+    );
+  }
+
+  if (!isAdmin(session)) {
+    return json({ error: "管理者権限が必要です" }, { status: 403 });
+  }
+
   const tableId = formData.get("tableId");
   const status = formData.get("status");
 
@@ -64,11 +122,16 @@ export type TableData = {
 };
 
 export default function Management() {
-  const { tables, error } = useLoaderData<{
+  const { tables, isAuthenticated, error } = useLoaderData<{
     tables: TableData[];
+    isAuthenticated: boolean;
     error?: string;
   }>();
-  const actionData = useActionData<{ success?: boolean; error?: string }>();
+  const actionData = useActionData<{
+    success?: boolean;
+    message?: string;
+    error?: string;
+  }>();
   const navigation = useNavigation();
 
   const statusMap: Record<string, string> = {
@@ -87,7 +150,60 @@ export default function Management() {
         </div>
       )}
 
-      {actionData?.success && (
+      {!isAuthenticated && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-6">
+          管理者としてログインしてください
+          <Form method="post" className="mt-4">
+            <input type="hidden" name="actionType" value="login" />
+            <div className="mb-4">
+              <label
+                htmlFor="username"
+                className="block text-yellow-900 font-medium mb-1"
+              >
+                ユーザー名
+              </label>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                className="w-full p-2 border rounded text-yellow-900 bg-yellow-50"
+                placeholder="ユーザー名を入力"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-yellow-900 font-medium mb-1"
+              >
+                パスワード
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                className="w-full p-2 border rounded text-yellow-900 bg-yellow-50"
+                placeholder="パスワードを入力"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600"
+            >
+              ログイン
+            </button>
+          </Form>
+        </div>
+      )}
+
+      {actionData?.success && actionData?.message && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          {actionData.message}
+        </div>
+      )}
+
+      {actionData?.success && !actionData?.message && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
           テーブルの状態を更新しました
         </div>
@@ -99,41 +215,58 @@ export default function Management() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {tables.map((table) => (
-          <div key={table.table_id} className="bg-white p-4 rounded shadow">
-            <h2 className="text-lg font-semibold mb-2">
-              テーブル {table.table_id}
-            </h2>
-            <p className="text-gray-600 mb-2">
-              現在の状態: {statusMap[table.status] || table.status}
-            </p>
-            <p className="text-sm text-gray-500 mb-4">
-              最終更新: {new Date(table.last_updated).toLocaleString()}
-            </p>
-
-            <Form method="post" className="flex flex-col gap-2">
-              <input type="hidden" name="tableId" value={table.table_id} />
-              <select
-                name="status"
-                defaultValue={table.status}
-                className="border p-2 rounded text-black bg-white"
-              >
-                <option value="available">利用可能</option>
-                <option value="occupied">使用中</option>
-                <option value="needs_cleaning">清掃が必要</option>
-              </select>
+      {isAuthenticated && (
+        <>
+          <div className="flex justify-end mb-4">
+            <Form method="post">
+              <input type="hidden" name="actionType" value="logout" />
               <button
                 type="submit"
-                disabled={navigation.state === "submitting"}
-                className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-blue-300"
+                className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
               >
-                {navigation.state === "submitting" ? "更新中..." : "状態を更新"}
+                ログアウト
               </button>
             </Form>
           </div>
-        ))}
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {tables.map((table) => (
+              <div key={table.table_id} className="bg-white p-4 rounded shadow">
+                <h2 className="text-lg font-semibold mb-2">
+                  テーブル {table.table_id}
+                </h2>
+                <p className="text-gray-600 mb-2">
+                  現在の状態: {statusMap[table.status] || table.status}
+                </p>
+                <p className="text-sm text-gray-500 mb-4">
+                  最終更新: {new Date(table.last_updated).toLocaleString()}
+                </p>
+
+                <Form method="post" className="flex flex-col gap-2">
+                  <input type="hidden" name="tableId" value={table.table_id} />
+                  <select
+                    name="status"
+                    defaultValue={table.status}
+                    className="border p-2 rounded text-black bg-white"
+                  >
+                    <option value="available">利用可能</option>
+                    <option value="occupied">使用中</option>
+                    <option value="needs_cleaning">清掃が必要</option>
+                  </select>
+                  <button
+                    type="submit"
+                    disabled={navigation.state === "submitting"}
+                    className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-blue-300"
+                  >
+                    {navigation.state === "submitting"
+                      ? "更新中..."
+                      : "状態を更新"}
+                  </button>
+                </Form>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       <BottomNav />
     </div>

@@ -28,6 +28,16 @@ export function getCartFromSession(session: Session): CartItem[] {
   return cartData || [];
 }
 
+// セッションから管理者権限を取得するユーティリティ関数
+export function isAdmin(session: Session): boolean {
+  return session.get("isAdmin") === true;
+}
+
+// 管理者権限を設定するユーティリティ関数
+export function setAdmin(session: Session, isAdmin: boolean): void {
+  session.set("isAdmin", isAdmin);
+}
+
 // セッションからテーブルIDを取得するユーティリティ関数
 export function getTableIdFromSession(session: Session): string | undefined {
   return session.get("tableId") as string | undefined;
