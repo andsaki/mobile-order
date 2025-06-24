@@ -11,7 +11,10 @@ import {
 import { Toaster } from "react-hot-toast";
 
 import "./tailwind.css";
-import { tableIdLoader, type TableIdData } from "~/utils/session.server";
+import {
+  tableIdLoader,
+  type TableIdData,
+} from "~/utils/business/session.server";
 
 import BottomNav from "./components/BottomNav";
 

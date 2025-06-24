@@ -1,8 +1,12 @@
 import { json, type LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { createClient } from "@supabase/supabase-js";
+
 import BottomNav from "~/components/BottomNav";
-import { getSession, getTableIdFromSession } from "~/utils/session.server";
+import {
+  getSession,
+  getTableIdFromSession,
+} from "~/utils/business/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const supabaseUrl = process.env.SUPABASE_URL ?? "";

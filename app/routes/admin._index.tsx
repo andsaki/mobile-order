@@ -16,7 +16,11 @@ import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
 import BottomNav from "~/components/BottomNav";
-import { getSession, commitSession, isAdmin } from "~/utils/session.server";
+import {
+  getSession,
+  commitSession,
+  isAdmin,
+} from "~/utils/business/session.server";
 
 // Supabase connection setup
 const supabaseUrl = process.env.SUPABASE_URL ?? "";

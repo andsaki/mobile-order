@@ -1,4 +1,4 @@
-// app/utils/session.server.ts (サーバー専用)
+// app/utils/business/session.server.ts (サーバー専用)
 import { createCookieSessionStorage, json, Session } from "@remix-run/node";
 import type { LoaderFunction } from "@remix-run/node";
 
@@ -43,6 +43,7 @@ export function setAdmin(session: Session, isAdmin: boolean): void {
 export function getTableIdFromSession(session: Session): string | undefined {
   return session.get("tableId") as string | undefined;
 }
+
 /**
  * テーブルIDをセッションから取得し、URLパラメータから新しいテーブルIDが提供された場合は
  * セッションに保存するローダー関数です。リクエストのURLからテーブルIDを取得し、セッションに

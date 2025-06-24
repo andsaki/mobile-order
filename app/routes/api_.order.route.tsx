@@ -1,11 +1,12 @@
 import { json, type ActionFunction } from "@remix-run/node";
+import { createClient } from "@supabase/supabase-js";
+
+import { CartItem } from "~/types/cartItem";
 import {
   commitSession,
   getSession,
   getCartFromSession,
-} from "~/utils/session.server";
-import { createClient } from "@supabase/supabase-js";
-import { CartItem } from "~/types/cartItem";
+} from "~/utils/business/session.server";
 
 export const action: ActionFunction = async ({ request }) => {
   if (request.method !== "POST") {

@@ -1,4 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
+import { useSearchParams, useNavigate } from "@remix-run/react";
+import { useEffect } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -6,9 +8,6 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Mobile Order App" },
   ];
 };
-
-import { useEffect } from "react";
-import { useSearchParams, useNavigate } from "@remix-run/react";
 
 // インデックスルートコンポーネント
 export default function Index() {

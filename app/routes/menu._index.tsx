@@ -1,55 +1,17 @@
-import { json, TypedResponse } from "@remix-run/node";
+import { TypedResponse } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import BottomNav from "~/components/BottomNav";
 import Menu, { MenuItem, Category } from "~/components/Menu";
+import { fetchMenuData } from "~/utils/domain/api.server";
 
 interface MenuData {
   categories: Category[];
   items: MenuItem[];
 }
 
-interface ApiResponse<T> {
-  contents: T[];
-}
-
-const API_KEY = "KOjYGzOL5TlpVlL8YAZdxka6KEPLlDaBtPW2";
-
 export async function loader(): Promise<TypedResponse<MenuData>> {
-  const [itemResponse, categoryResponse] = await Promise.all([
-    fetch("https://andsakiapi.microcms.io/api/v1/items", {
-      headers: {
-        "Content-Type": "application/json",
-        "X-MICROCMS-API-KEY": API_KEY,
-      },
-    }),
-    fetch("https://andsakiapi.microcms.io/api/v1/categories", {
-      headers: {
-        "Content-Type": "application/json",
-        "X-MICROCMS-API-KEY": API_KEY,
-      },
-    }),
-  ]);
-
-  if (!itemResponse.ok) {
-    throw new Error(
-      `Items API request failed with status ${itemResponse.status}`
-    );
-  }
-
-  if (!categoryResponse.ok) {
-    throw new Error(
-      `Categories API request failed with status ${categoryResponse.status}`
-    );
-  }
-
-  const itemData = (await itemResponse.json()) as ApiResponse<MenuItem>;
-  const items: MenuItem[] = itemData.contents;
-
-  const categoryData = (await categoryResponse.json()) as ApiResponse<Category>;
-  const categories: Category[] = categoryData.contents;
-
-  return json({ categories, items });
+  return await fetchMenuData<MenuItem, Category>();
 }
 
 export default function MenuRoute() {

@@ -1,13 +1,19 @@
-import { useLoaderData, useActionData, Form } from "@remix-run/react";
 import {
   json,
   type LoaderFunction,
   type ActionFunction,
 } from "@remix-run/node";
+import { useLoaderData, useActionData, Form } from "@remix-run/react";
 import { createClient } from "@supabase/supabase-js";
-import BottomNav from "../components/BottomNav";
-import { getSession, commitSession, isAdmin } from "../utils/session.server";
 import { z } from "zod";
+
+import {
+  getSession,
+  commitSession,
+  isAdmin,
+} from "~/utils/business/session.server";
+
+import BottomNav from "../components/BottomNav";
 
 // Supabase connection setup
 const supabaseUrl = process.env.SUPABASE_URL ?? "";
