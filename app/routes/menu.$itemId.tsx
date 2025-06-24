@@ -20,7 +20,7 @@ export async function loader({ params }: { params: { itemId: string } }) {
     throw new Response("Not Found", { status: response.status });
   }
 
-  const item = await response.json();
+  const item = (await response.json()) as Item;
 
   return item;
 }
@@ -88,7 +88,7 @@ export default function MenuItemRoute() {
  * @param quantity
  */
 function addToCart(item: Item, quantity: number) {
-  const cart: CartItem[] = JSON.parse(sessionStorage.getItem("cart") || "[]");
+  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]") as CartItem[];
   const existingItemIndex = cart.findIndex(
     (cartItem) => cartItem.id === item.id
   );
