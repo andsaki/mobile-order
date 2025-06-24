@@ -23,6 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
     try {
       cart = JSON.parse(cartData) as CartItem[];
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error parsing cart data from request:", error);
       return json({ error: "Invalid cart data" }, { status: 400 });
     }
@@ -40,11 +41,13 @@ export const action: ActionFunction = async ({ request }) => {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
   // Log tableId to debug
+  // eslint-disable-next-line no-console
   console.log("Form tableId:", tableId);
   if (!session) {
     session = await getSession(request.headers.get("Cookie"));
   }
   const sessionTableId = getTableIdFromSession(session);
+  // eslint-disable-next-line no-console
   console.log("Session tableId:", sessionTableId);
 
   // Use session tableId if form tableId is not provided or is empty
@@ -66,10 +69,12 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   // デバッグ用に環境変数の値をログに出力
+  // eslint-disable-next-line no-console
   console.log(
     "Supabase URL:",
     supabaseUrl ? "設定されています" : "設定されていません"
   );
+  // eslint-disable-next-line no-console
   console.log(
     "Supabase Anon Key:",
     supabaseKey ? "設定されています" : "設定されていません"
@@ -77,6 +82,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   // Supabase URLが設定されていない場合はエラーを返す
   if (!supabaseUrl || supabaseUrl.trim() === "") {
+    // eslint-disable-next-line no-console
     console.error(
       "Supabase URLが設定されていません。`.env.local`ファイルまたはVercelの環境変数を確認してください。"
     );
@@ -88,6 +94,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   // Supabase Keyが設定されていない場合はエラーを返す
   if (!supabaseKey || supabaseKey.trim() === "") {
+    // eslint-disable-next-line no-console
     console.error(
       "Supabase Anon Keyが設定されていません。`.env.local`ファイルまたはVercelの環境変数を確認してください。"
     );
@@ -103,6 +110,7 @@ export const action: ActionFunction = async ({ request }) => {
   try {
     new URL(supabaseUrl);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(
       "Supabase URLの形式が無効です。`.env.local`ファイルまたはVercelの環境変数を確認してください。",
       e
@@ -134,9 +142,11 @@ export const action: ActionFunction = async ({ request }) => {
     },
   ]);
 
+  // eslint-disable-next-line no-console
   console.log("注文データの保存結果:", data, error);
 
   if (error !== null) {
+    // eslint-disable-next-line no-console
     console.error("注文データの保存に失敗しました:", error);
     // Supabaseでテーブルが存在しない場合、挿入操作は失敗します
     // Supabaseのダッシュボードで`orders`テーブルを作成してください
@@ -164,8 +174,10 @@ export const action: ActionFunction = async ({ request }) => {
       ]);
 
     if (tableError !== null) {
+      // eslint-disable-next-line no-console
       console.error("テーブルの状態更新に失敗しました:", tableError);
     } else {
+      // eslint-disable-next-line no-console
       console.log("テーブルの状態を 'occupied' に更新しました:", tableData);
     }
   }
