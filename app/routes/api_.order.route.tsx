@@ -6,6 +6,7 @@ import {
   commitSession,
   getSession,
   getCartFromSession,
+  getTableIdFromSession,
 } from "~/utils/business/session.server";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -38,14 +39,12 @@ export const action: ActionFunction = async ({ request }) => {
   const supabaseUrl = process.env.SUPABASE_URL ?? "";
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
-  console.log(supabaseUrl, supabaseKey);
-
   // Log tableId to debug
   console.log("Form tableId:", tableId);
   if (!session) {
     session = await getSession(request.headers.get("Cookie"));
   }
-  const sessionTableId = session.get("tableId");
+  const sessionTableId = getTableIdFromSession(session);
   console.log("Session tableId:", sessionTableId);
 
   // Use session tableId if form tableId is not provided or is empty
@@ -53,7 +52,6 @@ export const action: ActionFunction = async ({ request }) => {
     tableId && typeof tableId === "string" && tableId.trim() !== ""
       ? tableId
       : sessionTableId;
-  console.log("Final tableId used:", finalTableId);
 
   if (cart.length === 0) {
     return json({ error: "Cart is empty" }, { status: 400 });
