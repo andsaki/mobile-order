@@ -3,11 +3,9 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 import Button from "~/components/Button";
+import { API_ENDPOINT, API_KEY } from "~/constants/api";
 import { CartItem } from "~/types/cartItem";
 import Item from "~/types/item";
-
-const API_ENDPOINT = "https://andsakiapi.microcms.io/api/v1/items";
-const API_KEY = "KOjYGzOL5TlpVlL8YAZdxka6KEPLlDaBtPW2";
 
 export async function loader({ params }: { params: { itemId: string } }) {
   const itemId = params.itemId;
