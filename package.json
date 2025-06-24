@@ -9,7 +9,9 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "validate": "run-p \"test -- --run\" lint typecheck",
+    "build:ci": "npm run build && npm run lint && npm run typecheck"
   },
   "dependencies": {
     "@remix-run/node": "^2.16.6",
