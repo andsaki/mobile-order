@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { createClient } from "@supabase/supabase-js";
 
 import BottomNav from "~/components/BottomNav";
+import Button from "~/components/Button";
 import {
   getSession,
   getTableIdFromSession,
@@ -68,12 +69,12 @@ export default function Orders() {
       <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
         <h1 className="text-2xl font-bold text-gray-700">注文一覧</h1>
         <p className="text-gray-500">注文がありません。</p>
-        <a
-          href="/menu"
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        <Button
+          variant="primary"
+          onClick={() => (window.location.href = "/menu")}
         >
           メニューに戻る
-        </a>
+        </Button>
       </div>
     );
   }
@@ -116,18 +117,18 @@ export default function Orders() {
         )}
       </div>
       <div className="mt-6 flex justify-between">
-        <a
-          href="/menu"
-          className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+        <Button
+          variant="secondary"
+          onClick={() => (window.location.href = "/menu")}
         >
           メニューに戻る
-        </a>
-        <a
-          href="/qr"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => (window.location.href = "/qr")}
         >
           QRコードをレジに持っていく
-        </a>
+        </Button>
       </div>
       <BottomNav />
     </div>

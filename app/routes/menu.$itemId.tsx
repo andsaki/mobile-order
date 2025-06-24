@@ -1,8 +1,10 @@
+import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import { useLoaderData, Link } from "@remix-run/react";
 import toast from "react-hot-toast";
-import Item from "~/types/item";
+
+import Button from "~/components/Button";
 import { CartItem } from "~/types/cartItem";
+import Item from "~/types/item";
 
 const API_ENDPOINT = "https://andsakiapi.microcms.io/api/v1/items";
 const API_KEY = "KOjYGzOL5TlpVlL8YAZdxka6KEPLlDaBtPW2";
@@ -45,35 +47,38 @@ export default function MenuItemRoute() {
         <label htmlFor="quantity" className="mr-2">
           数量:
         </label>
-        <button
-          className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded-full mr-1 w-8 h-8"
+        <Button
+          variant="secondary"
+          size="small"
           onClick={() => setQuantity(quantity - 1)}
         >
           -
-        </button>
+        </Button>
         <span className="w-20 border rounded px-2 py-1 mx-2">{quantity}</span>
-        <button
-          className="bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded-full w-8 h-8"
+        <Button
+          variant="secondary"
+          size="small"
           onClick={() => setQuantity(quantity + 1)}
         >
           +
-        </button>
+        </Button>
       </div>
       <div className="flex justify-center">
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4"
+        <Button
+          variant="primary"
           onClick={() => {
             addToCart(item, quantity);
           }}
+          className="mr-4"
         >
           カートに入れる
-        </button>
-        <Link
-          to="/menu"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => (window.location.href = "/menu")}
         >
           戻る
-        </Link>
+        </Button>
       </div>
     </div>
   );

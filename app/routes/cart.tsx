@@ -1,7 +1,8 @@
-import { Link, useFetcher } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useState, useEffect, useCallback } from "react";
 
 import BottomNav from "~/components/BottomNav";
+import Button from "~/components/Button";
 import QuantityControl from "~/components/QuantityControl";
 import { CartItem } from "~/types/cartItem";
 
@@ -92,23 +93,23 @@ export default function CartRoute() {
         合計: {totalPrice}円
       </p>
       <div className="flex justify-center space-x-4">
-        <Link
-          to="/menu"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        <Button
+          variant="primary"
+          onClick={() => (window.location.href = "/menu")}
         >
           メニューに戻る
-        </Link>
-        <button
+        </Button>
+        <Button
+          variant="primary"
           onClick={() => {
             fetcher.submit(
               { cart: JSON.stringify(cart) },
               { method: "post", action: "/api/order/route" }
             );
           }}
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
         >
           注文する
-        </button>
+        </Button>
       </div>
       <BottomNav />
     </div>
