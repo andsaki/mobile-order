@@ -14,38 +14,35 @@ interface ApiResponse<T> {
 const API_KEY = "KOjYGzOL5TlpVlL8YAZdxka6KEPLlDaBtPW2";
 
 export async function loader(): Promise<TypedResponse<MenuData>> {
-  const itemResponse = await fetch(
-    "https://andsakiapi.microcms.io/api/v1/items",
-    {
+  const [itemResponse, categoryResponse] = await Promise.all([
+    fetch("https://andsakiapi.microcms.io/api/v1/items", {
       headers: {
         "Content-Type": "application/json",
         "X-MICROCMS-API-KEY": API_KEY,
       },
-    }
-  );
+    }),
+    fetch("https://andsakiapi.microcms.io/api/v1/categories", {
+      headers: {
+        "Content-Type": "application/json",
+        "X-MICROCMS-API-KEY": API_KEY,
+      },
+    }),
+  ]);
 
   if (!itemResponse.ok) {
-    throw new Error(`API request failed with status ${itemResponse.status}`);
+    throw new Error(
+      `Items API request failed with status ${itemResponse.status}`
+    );
+  }
+
+  if (!categoryResponse.ok) {
+    throw new Error(
+      `Categories API request failed with status ${categoryResponse.status}`
+    );
   }
 
   const itemData = (await itemResponse.json()) as ApiResponse<MenuItem>;
   const items: MenuItem[] = itemData.contents;
-
-  const categoryResponse = await fetch(
-    "https://andsakiapi.microcms.io/api/v1/categories",
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "X-MICROCMS-API-KEY": API_KEY,
-      },
-    }
-  );
-
-  if (!itemResponse.ok) {
-    throw new Error(
-      `API request failed with status ${categoryResponse.status}`
-    );
-  }
 
   const categoryData = (await categoryResponse.json()) as ApiResponse<Category>;
   const categories: Category[] = categoryData.contents;
