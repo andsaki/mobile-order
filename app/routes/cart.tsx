@@ -1,14 +1,18 @@
 import { useFetcher } from "@remix-run/react";
 import { useState, useEffect, useCallback } from "react";
+import toast from "react-hot-toast";
 
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
+import Modal from "~/components/Modal";
 import QuantityControl from "~/components/QuantityControl";
 import { CartItem } from "~/types/cartItem";
 
 export default function CartRoute() {
   const fetcher = useFetcher();
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     try {
@@ -22,7 +26,7 @@ export default function CartRoute() {
     }
   }, []);
 
-  // 注文APIのレスポンスを監視し、成功した場合にアラートを表示し注文一覧ページへ遷移する
+  // 注文APIのレスポンスを監視し、成功した場合にモーダルを表示し注文一覧ページへ遷移する
   useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
       // 型安全にプロパティの存在を確認
@@ -30,14 +34,13 @@ export default function CartRoute() {
         // 型ガードを使用してプロパティの存在を確認
         const dataObj = fetcher.data;
         if ("orderId" in dataObj && typeof dataObj.orderId === "string") {
-          alert(`注文完了：${dataObj.orderId}`);
+          setModalMessage(`注文完了：${dataObj.orderId}`);
+          setIsModalOpen(true);
           // カートをクリアするなどのUI更新処理をここに追加可能
           setCart([]);
           sessionStorage.setItem("cart", JSON.stringify([]));
-          // 注文一覧ページへ遷移
-          window.location.href = "/orders";
         } else if ("error" in dataObj && typeof dataObj.error === "string") {
-          alert(`注文エラー：${dataObj.error}`);
+          toast.error(`注文エラー：${dataObj.error}`);
         }
       }
     }
@@ -111,6 +114,15 @@ export default function CartRoute() {
           注文する
         </Button>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          window.location.href = "/orders";
+        }}
+        title="注文完了"
+        message={modalMessage}
+      />
       <BottomNav />
     </div>
   );
