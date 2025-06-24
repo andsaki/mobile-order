@@ -45,7 +45,7 @@ export default function CartRoute() {
         }
       }
     }
-  }, [fetcher.state, fetcher.data]); // fetcherの状態とデータが変化するたびにこの効果を実行
+  }, [fetcher.state, fetcher.data, setCart]); // fetcherの状態とデータが変化するたびにこの効果を実行
 
   let totalPrice = 0;
   for (const item of cart) {
