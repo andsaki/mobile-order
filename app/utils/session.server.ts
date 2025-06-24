@@ -42,7 +42,11 @@ export function setAdmin(session: Session, isAdmin: boolean): void {
 export function getTableIdFromSession(session: Session): string | undefined {
   return session.get("tableId") as string | undefined;
 }
-// Loader function for handling table ID session
+/**
+ * テーブルIDをセッションから取得し、URLパラメータから新しいテーブルIDが提供された場合は
+ * セッションに保存するローダー関数です。リクエストのURLからテーブルIDを取得し、セッションに
+ * 設定することで、ユーザーのテーブル情報を管理します。
+ */
 import type { LoaderFunction } from "@remix-run/node";
 
 export type TableIdData = {
