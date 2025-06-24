@@ -1,16 +1,17 @@
 import { useFetcher } from "@remix-run/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
 import Modal from "~/components/Modal";
 import QuantityControl from "~/components/QuantityControl";
+import { useCart } from "~/hooks/useCart";
 import { CartItem } from "~/types/cartItem";
 
 export default function CartRoute() {
   const fetcher = useFetcher();
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const { cart, setCart, updateQuantity } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
@@ -45,17 +46,6 @@ export default function CartRoute() {
       }
     }
   }, [fetcher.state, fetcher.data]); // fetcherの状態とデータが変化するたびにこの効果を実行
-
-  const updateQuantity = useCallback(
-    (itemId: string, newQuantity: number) => {
-      setCart((prevCart) =>
-        prevCart.map((item) =>
-          item.id === itemId ? { ...item, quantity: newQuantity } : item
-        )
-      );
-    },
-    [setCart]
-  );
 
   let totalPrice = 0;
   for (const item of cart) {
