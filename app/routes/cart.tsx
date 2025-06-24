@@ -25,7 +25,7 @@ export default function CartRoute() {
     } catch (error) {
       console.error("Error parsing cart from sessionStorage:", error);
     }
-  }, []);
+  }, [setCart]);
 
   // 注文APIのレスポンスを監視し、成功した場合にモーダルを表示し注文一覧ページへ遷移する
   useEffect(() => {
