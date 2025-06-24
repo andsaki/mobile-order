@@ -14,6 +14,7 @@ import {
 } from "~/utils/business/session.server";
 
 import BottomNav from "../components/BottomNav";
+import Button from "../components/Button";
 
 // Supabase connection setup
 const supabaseUrl = process.env.SUPABASE_URL ?? "";
@@ -157,12 +158,9 @@ export default function AccountManagement() {
           <div className="flex justify-end mb-4">
             <Form method="post">
               <input type="hidden" name="actionType" value="logout" />
-              <button
-                type="submit"
-                className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
-              >
+              <Button type="submit" variant="danger">
                 ログアウト
-              </button>
+              </Button>
             </Form>
           </div>
           <div className="bg-white p-4 rounded shadow mb-4">
@@ -189,12 +187,9 @@ export default function AccountManagement() {
                   placeholder="新しいパスワード"
                   required
                 />
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
-                >
+                <Button type="submit" variant="primary">
                   追加
-                </button>
+                </Button>
               </div>
             </Form>
           </div>
