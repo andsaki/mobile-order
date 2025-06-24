@@ -20,19 +20,18 @@ export const loader: LoaderFunction = async ({ request }) => {
     );
   }
 
-  // Get tableId from session
+  /* セッションからテーブルIDを取得する */
   const session = await getSession(request.headers.get("Cookie"));
   const tableId = getTableIdFromSession(session);
-  console.log("Client tableId for filtering orders:", tableId);
 
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  // If no tableId, return empty orders
+  /* テーブルIDがない場合、空の注文を返す */
   if (!tableId || tableId.trim() === "") {
     return json({ orders: [] });
   }
 
-  // Filter orders by tableId
+  /* テーブルIDで注文をフィルタリングする */
   const { data: orders, error } = await supabase
     .from("orders")
     .select("*")
@@ -47,7 +46,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json({ orders });
 };
 
-// Define the type for the loader data
+/* ローダーデータの型を定義する */
 interface LoaderData {
   orders: Array<{
     order_id: string;
@@ -94,20 +93,28 @@ export default function Orders() {
               price: number;
             }>;
           }) => (
-            <div key={order.order_id} className="bg-white p-4 rounded shadow">
-              <h2 className="text-lg font-semibold">
-                注文ID: {order.order_id}
+            <div
+              key={order.order_id}
+              className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200"
+            >
+              <h2 className="text-xl font-bold text-gray-800 mb-2">
+                注文ID: {order.order_id.slice(0, 8)}...
               </h2>
-              <p className="text-gray-600">テーブルID: {order.table_id}</p>
-              <p className="text-gray-600">
+              <p className="text-gray-500 text-sm mb-1">
+                テーブルID: {order.table_id}
+              </p>
+              <p className="text-gray-500 text-sm mb-3">
                 注文日時: {new Date(order.created_at).toLocaleString()}
               </p>
-              <div className="mt-2">
-                <h3 className="text-md font-medium">注文内容:</h3>
-                <ul className="list-disc list-inside">
+              <div className="mt-3">
+                <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                  注文内容:
+                </h3>
+                <ul className="list-disc list-inside space-y-1 pl-2">
                   {order.cart_items.map((item, index) => (
-                    <li key={index}>
-                      {item.name} - 数量: {item.quantity} - 価格: ¥{item.price}
+                    <li key={index} className="text-gray-600">
+                      <span className="font-medium">{item.name}</span> - 数量:{" "}
+                      {item.quantity} - 価格: ¥{item.price}
                     </li>
                   ))}
                 </ul>
@@ -127,7 +134,7 @@ export default function Orders() {
           variant="primary"
           onClick={() => (window.location.href = "/qr")}
         >
-          QRコードをレジに持っていく
+          QRで支払い
         </Button>
       </div>
       <BottomNav />
