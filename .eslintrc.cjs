@@ -1,7 +1,7 @@
 /**
- * This is intended to be a basic starting point for linting in your app.
- * It relies on recommended configs out of the box for simplicity, but you can
- * and should modify this configuration to best suit your team's needs.
+ * これはアプリのLintingのための基本的な出発点となることを意図しています。
+ * シンプルさを保つために推奨される設定をデフォルトで使用していますが、チームのニーズに
+ * 最適に合うようにこの設定を変更することができますし、変更すべきです。
  */
 
 /** @type {import('eslint').Linter.Config} */
