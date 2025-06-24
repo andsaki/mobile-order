@@ -31,3 +31,5 @@ jobs:
         run: npm run typecheck
         env:
           CI: true
+      - name: Confirm Type Check Result
+        run: echo "Type checking completed. If there were errors, the workflow should have failed."
