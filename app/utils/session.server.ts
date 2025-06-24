@@ -1,5 +1,8 @@
 // app/utils/session.server.ts (サーバー専用)
 import { createCookieSessionStorage, json, Session } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+
+import { CartItem } from "~/types/cartItem";
 
 const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -11,8 +14,6 @@ const sessionStorage = createCookieSessionStorage({
     secure: process.env.NODE_ENV === "production",
   },
 });
-
-import { CartItem } from "~/types/cartItem";
 
 export const { getSession, commitSession, destroySession } = sessionStorage;
 
@@ -47,8 +48,6 @@ export function getTableIdFromSession(session: Session): string | undefined {
  * セッションに保存するローダー関数です。リクエストのURLからテーブルIDを取得し、セッションに
  * 設定することで、ユーザーのテーブル情報を管理します。
  */
-import type { LoaderFunction } from "@remix-run/node";
-
 export type TableIdData = {
   tableId: string | undefined;
 };

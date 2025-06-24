@@ -1,7 +1,8 @@
 import { Link, useFetcher } from "@remix-run/react";
 import { useState, useEffect, useCallback } from "react";
-import QuantityControl from "~/components/QuantityControl";
+
 import BottomNav from "~/components/BottomNav";
+import QuantityControl from "~/components/QuantityControl";
 import { CartItem } from "~/types/cartItem";
 
 export default function CartRoute() {

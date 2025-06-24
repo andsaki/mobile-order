@@ -64,7 +64,7 @@ module.exports = {
         "plugin:import/typescript",
       ],
       parserOptions: {
-        project: "./tsconfig.json", // ←必要に応じてパス修正
+        project: "./tsconfig.json",
         tsconfigRootDir: __dirname,
         sourceType: "module",
       },
@@ -74,6 +74,22 @@ module.exports = {
         "@typescript-eslint/no-unsafe-call": "warn",
         "@typescript-eslint/no-unsafe-member-access": "warn",
         "@typescript-eslint/no-unsafe-return": "warn",
+        // インポート文をグループ化し、順序を強制することでコードの読みやすさを向上させる
+        "import/order": [
+          "error",
+          {
+            groups: [
+              "builtin",
+              "external",
+              "internal",
+              "parent",
+              "sibling",
+              "index",
+            ],
+            "newlines-between": "always",
+            alphabetize: { order: "asc", caseInsensitive: true },
+          },
+        ],
       },
       settings: {
         "import/internal-regex": "^~/",

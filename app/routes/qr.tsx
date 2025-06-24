@@ -1,6 +1,7 @@
-import BottomNav from "~/components/BottomNav";
 import { useLoaderData } from "@remix-run/react";
 import { QRCodeSVG } from "qrcode.react";
+
+import BottomNav from "~/components/BottomNav";
 import { tableIdLoader, type TableIdData } from "~/utils/session.server";
 
 export const loader = tableIdLoader;

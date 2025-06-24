@@ -1,6 +1,8 @@
-import Menu, { MenuItem, Category } from "~/components/Menu";
 import { json, TypedResponse } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+
+import BottomNav from "~/components/BottomNav";
+import Menu, { MenuItem, Category } from "~/components/Menu";
 
 interface MenuData {
   categories: Category[];
@@ -49,8 +51,6 @@ export async function loader(): Promise<TypedResponse<MenuData>> {
 
   return json({ categories, items });
 }
-
-import BottomNav from "~/components/BottomNav";
 
 export default function MenuRoute() {
   const menu = useLoaderData<typeof loader>();
