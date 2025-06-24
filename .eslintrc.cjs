@@ -111,5 +111,12 @@ module.exports = {
         node: true,
       },
     },
+    // Ignore no-console rule for specific file
+    {
+      files: ["app/routes/api_.order.route.tsx"],
+      rules: {
+        "no-console": "off",
+      },
+    },
   ],
 };
