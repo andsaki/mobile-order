@@ -1,8 +1,9 @@
 import React from "react";
 
-import Button from "~/components/Button";
-import QuantityControl from "~/components/QuantityControl";
 import { CartItem as CartItemType } from "~/types/cartItem";
+
+import Button from "./Button";
+import QuantityControl from "./QuantityControl";
 
 interface CartItemProps {
   item: CartItemType;

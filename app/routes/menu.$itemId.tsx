@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
+import QuantityControl from "~/components/QuantityControl";
 import { API_ENDPOINT, API_KEY } from "~/constants/api";
 import { CartItem } from "~/types/cartItem";
 import Item from "~/types/item";
@@ -48,23 +49,12 @@ export default function MenuItemRoute() {
               <label htmlFor="quantity" className="mr-2">
                 数量:
               </label>
-              <Button
-                variant="secondary"
-                size="small"
-                onClick={() => setQuantity(quantity - 1)}
-              >
-                -
-              </Button>
-              <span className="w-20 border rounded px-2 py-1 mx-2">
-                {quantity}
-              </span>
-              <Button
-                variant="secondary"
-                size="small"
-                onClick={() => setQuantity(quantity + 1)}
-              >
-                +
-              </Button>
+              <QuantityControl
+                quantity={quantity}
+                onIncrement={() => setQuantity(quantity + 1)}
+                onDecrement={() => setQuantity(quantity - 1)}
+                min={1}
+              />
             </div>
           </div>
           <div className="flex justify-center">
@@ -74,6 +64,7 @@ export default function MenuItemRoute() {
                 addToCart(item, quantity);
               }}
               className="mr-4"
+              disabled={quantity < 1}
             >
               カートに入れる
             </Button>
