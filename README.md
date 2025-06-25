@@ -1,40 +1,16 @@
-# Welcome to Remix!
+# モバイルオーダーアプリケーション
 
-- 📖 [Remix docs](https://remix.run/docs)
+これは、使いやすさと視覚的一貫性を重視して設計されたモバイルオーダーアプリケーションです。
 
-## Development
+## デザインの更新
 
-Run the dev server:
+最近の更新では、非管理者セクション全体でのデザインの統一に焦点を当てています：
 
-```shellscript
-npm run dev
-```
+- 背景色をライトグレー（#f3f4f6）に標準化し、一貫した外観を実現。
+- 詳細ビューでの明示的な背景色のオーバーライドを削除し、色の遷移を防止。
+- デザイン変更を管理するためにブランチ `feature/design-updates` を作成。
 
-## Deployment
+## テスト
 
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+以下の URL でアプリケーションをテストできます：
+[https://mobile-order-lyart.vercel.app/cart?table=T1](https://mobile-order-lyart.vercel.app/cart?table=T1)
