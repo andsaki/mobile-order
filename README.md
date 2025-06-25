@@ -13,4 +13,4 @@
 ## テスト
 
 以下の URL でアプリケーションをテストできます：
-[https://mobile-order-lyart.vercel.app/cart?tableid=T1](https://mobile-order-lyart.vercel.app/cart?tableid=T1)
+[https://mobile-order-lyart.vercel.app/cart?tableId=T1](https://mobile-order-lyart.vercel.app/cart?tableId=T1)
