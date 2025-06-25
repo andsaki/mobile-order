@@ -66,7 +66,7 @@ export default function Orders() {
 
   if (!orders || orders.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center h-screen">
         <LayoutConverter title="注文一覧">
           <>
             <p className="text-gray-500">注文がありません。</p>
@@ -83,7 +83,7 @@ export default function Orders() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 pb-16">
+    <div className="min-h-screen p-4 pb-16">
       <LayoutConverter title="注文一覧">
         <>
           <div className="space-y-4">
