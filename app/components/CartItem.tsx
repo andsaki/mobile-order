@@ -16,7 +16,7 @@ const CartItem: React.FC<CartItemProps> = ({
   removeItem,
 }) => {
   return (
-    <li className="rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300 bg-white">
+    <li className="rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300">
       <div className="flex justify-between">
         <div className="flex flex-col space-y-2">
           <h3 className="text-xl font-semibold">{item.name}</h3>
@@ -35,7 +35,7 @@ const CartItem: React.FC<CartItemProps> = ({
         <Button
           variant="danger"
           onClick={() => removeItem(item.id)}
-          className="bg-transparent text-red-600 text-sm self-start mt-2"
+          className="text-sm self-start mt-2"
         >
           削除
         </Button>
