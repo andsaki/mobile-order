@@ -31,39 +31,41 @@ export default function MenuItemRoute() {
   const [quantity, setQuantity] = useState(1);
 
   return (
-    <div className="rounded-lg p-4 cursor-pointer transition duration-300 bg-white">
+    <div className="rounded-lg p-4 cursor-pointer transition duration-300">
       <LayoutConverter title={item.name}>
         <>
           <div className="w-full relative aspect-w-1 aspect-h-1">
             <img
               src={item.image.url}
               alt={item.name}
-              className="w-full h-full object-cover rounded-md mt-2 mb-2 square"
+              className="w-full h-full object-cover rounded-md mt-2 mb-8 square"
             />
           </div>
-          <p className="mb-4 text-gray-500">{item.description}</p>
-          <p className="mb-4 text-black font-bold text-lg">{item.price}円</p>
-          <div className="mb-12">
-            <label htmlFor="quantity" className="mr-2">
-              数量:
-            </label>
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={() => setQuantity(quantity - 1)}
-            >
-              -
-            </Button>
-            <span className="w-20 border rounded px-2 py-1 mx-2">
-              {quantity}
-            </span>
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={() => setQuantity(quantity + 1)}
-            >
-              +
-            </Button>
+          <div className="bg-white p-4 rounded shadow mb-4">
+            <p className="mb-4 text-gray-500">{item.description}</p>
+            <p className="mb-4 text-black font-bold text-lg">{item.price}円</p>
+            <div>
+              <label htmlFor="quantity" className="mr-2">
+                数量:
+              </label>
+              <Button
+                variant="secondary"
+                size="small"
+                onClick={() => setQuantity(quantity - 1)}
+              >
+                -
+              </Button>
+              <span className="w-20 border rounded px-2 py-1 mx-2">
+                {quantity}
+              </span>
+              <Button
+                variant="secondary"
+                size="small"
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                +
+              </Button>
+            </div>
           </div>
           <div className="flex justify-center">
             <Button
