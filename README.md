@@ -2,15 +2,9 @@
 
 これは、使いやすさと視覚的一貫性を重視して設計されたモバイルオーダーアプリケーションです。
 
-## デザインの更新
-
-最近の更新では、非管理者セクション全体でのデザインの統一に焦点を当てています：
-
-- 背景色をライトグレー（#f3f4f6）に標準化し、一貫した外観を実現。
-- 詳細ビューでの明示的な背景色のオーバーライドを削除し、色の遷移を防止。
-- デザイン変更を管理するためにブランチ `feature/design-updates` を作成。
-
 ## テスト
 
 以下の URL でアプリケーションをテストできます：
 [https://mobile-order-lyart.vercel.app/cart?tableId=T1](https://mobile-order-lyart.vercel.app/cart?tableId=T1)
+
+![alt text](image.png)
