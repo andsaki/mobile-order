@@ -2,6 +2,7 @@ import { TypedResponse } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 
 import BottomNav from "~/components/BottomNav";
+import LayoutConverter from "~/components/LayoutConverter";
 import Menu, { MenuItem, Category } from "~/components/Menu";
 import { fetchMenuData } from "~/utils/domain/api.server";
 
@@ -19,9 +20,12 @@ export default function MenuRoute() {
 
   return (
     <div className="container mx-auto p-4 pb-16">
-      <h1 className="text-3xl font-bold mb-4">メニュー</h1>
-      <Menu menuData={menu} />
-      <BottomNav />
+      <LayoutConverter title="メニュー">
+        <>
+          <Menu menuData={menu} />
+          <BottomNav />
+        </>
+      </LayoutConverter>
     </div>
   );
 }
