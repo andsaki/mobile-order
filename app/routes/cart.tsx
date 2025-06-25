@@ -54,7 +54,7 @@ export default function CartRoute() {
 
   return (
     <div className="m-4 pb-16">
-      <h1 className="text-2xl font-bold">カート</h1>
+      <h1 className="text-2xl font-bold mb-4">カート</h1>
       {cart.length === 0 ? (
         <p className="mb-4">カートは空です。</p>
       ) : (
