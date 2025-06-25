@@ -32,5 +32,13 @@ export function useCart() {
     );
   };
 
-  return { cart, setCart, updateQuantity };
+  const removeItem = (itemId: string) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter((item) => item.id !== itemId);
+      sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
+  };
+
+  return { cart, setCart, updateQuantity, removeItem };
 }
