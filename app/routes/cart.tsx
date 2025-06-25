@@ -71,13 +71,14 @@ export default function CartRoute() {
               ))}
             </ul>
           )}
-          <div className="text-xl font-bold my-4 bg-white text-gray-800 p-3 rounded shadow">
+          <div className="text-xl font-bold my-4 bg-blue-50 text-blue-900 p-3 rounded-lg shadow-sm">
             合計: {totalPrice}円
           </div>
           <div className="flex justify-center space-x-4">
             <Button
               variant="primary"
               onClick={() => (window.location.href = "/menu")}
+              className="w-40 text-center"
             >
               メニューに戻る
             </Button>
@@ -89,6 +90,7 @@ export default function CartRoute() {
                   { method: "post", action: "/api/order/route" }
                 );
               }}
+              className="w-40 text-center"
             >
               注文する
             </Button>
