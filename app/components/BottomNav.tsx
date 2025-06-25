@@ -1,12 +1,21 @@
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 
 export default function BottomNav() {
+  const location = useLocation();
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white flex justify-between py-2 px-2">
-      <Link to="/menu" className="flex flex-col items-center text-xs">
+      <Link
+        to="/menu"
+        className={`flex flex-col items-center text-xs px-4 py-2 ${
+          location.pathname === "/menu" ? "text-blue-400" : ""
+        }`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className={`h-7 w-7 mb-1 ${
+            location.pathname === "/menu" ? "stroke-blue-400" : ""
+          }`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -20,10 +29,17 @@ export default function BottomNav() {
         </svg>
         メニュー
       </Link>
-      <Link to="/cart" className="flex flex-col items-center text-xs">
+      <Link
+        to="/cart"
+        className={`flex flex-col items-center text-xs px-4 py-2 ${
+          location.pathname === "/cart" ? "text-blue-400" : ""
+        }`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className={`h-7 w-7 mb-1 ${
+            location.pathname === "/cart" ? "stroke-blue-400" : ""
+          }`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -37,10 +53,17 @@ export default function BottomNav() {
         </svg>
         カート
       </Link>
-      <Link to="/orders" className="flex flex-col items-center text-xs">
+      <Link
+        to="/orders"
+        className={`flex flex-col items-center text-xs px-4 py-2 ${
+          location.pathname === "/orders" ? "text-blue-400" : ""
+        }`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className={`h-7 w-7 mb-1 ${
+            location.pathname === "/orders" ? "stroke-blue-400" : ""
+          }`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -52,7 +75,7 @@ export default function BottomNav() {
             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
           />
         </svg>
-        注文一覧
+        履歴
       </Link>
     </nav>
   );
