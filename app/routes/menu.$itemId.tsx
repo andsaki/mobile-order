@@ -3,6 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 import Button from "~/components/Button";
+import LayoutConverter from "~/components/LayoutConverter";
 import { API_ENDPOINT, API_KEY } from "~/constants/api";
 import { CartItem } from "~/types/cartItem";
 import Item from "~/types/item";
@@ -31,53 +32,58 @@ export default function MenuItemRoute() {
 
   return (
     <div className="rounded-lg p-4 cursor-pointer transition duration-300 bg-white">
-      <div className="w-full relative aspect-w-1 aspect-h-1">
-        <img
-          src={item.image.url}
-          alt={item.name}
-          className="w-full h-full object-cover rounded-md mt-2 mb-2 square"
-        />
-      </div>
-      <h1 className="text-3xl font-bold my-4">{item.name}</h1>
-      <p className="mb-4 text-gray-500">{item.description}</p>
-      <p className="mb-4 text-black font-bold text-lg">{item.price}円</p>
-      <div className="mb-12">
-        <label htmlFor="quantity" className="mr-2">
-          数量:
-        </label>
-        <Button
-          variant="secondary"
-          size="small"
-          onClick={() => setQuantity(quantity - 1)}
-        >
-          -
-        </Button>
-        <span className="w-20 border rounded px-2 py-1 mx-2">{quantity}</span>
-        <Button
-          variant="secondary"
-          size="small"
-          onClick={() => setQuantity(quantity + 1)}
-        >
-          +
-        </Button>
-      </div>
-      <div className="flex justify-center">
-        <Button
-          variant="primary"
-          onClick={() => {
-            addToCart(item, quantity);
-          }}
-          className="mr-4"
-        >
-          カートに入れる
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => (window.location.href = "/menu")}
-        >
-          戻る
-        </Button>
-      </div>
+      <LayoutConverter title={item.name}>
+        <>
+          <div className="w-full relative aspect-w-1 aspect-h-1">
+            <img
+              src={item.image.url}
+              alt={item.name}
+              className="w-full h-full object-cover rounded-md mt-2 mb-2 square"
+            />
+          </div>
+          <p className="mb-4 text-gray-500">{item.description}</p>
+          <p className="mb-4 text-black font-bold text-lg">{item.price}円</p>
+          <div className="mb-12">
+            <label htmlFor="quantity" className="mr-2">
+              数量:
+            </label>
+            <Button
+              variant="secondary"
+              size="small"
+              onClick={() => setQuantity(quantity - 1)}
+            >
+              -
+            </Button>
+            <span className="w-20 border rounded px-2 py-1 mx-2">
+              {quantity}
+            </span>
+            <Button
+              variant="secondary"
+              size="small"
+              onClick={() => setQuantity(quantity + 1)}
+            >
+              +
+            </Button>
+          </div>
+          <div className="flex justify-center">
+            <Button
+              variant="primary"
+              onClick={() => {
+                addToCart(item, quantity);
+              }}
+              className="mr-4"
+            >
+              カートに入れる
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => (window.location.href = "/menu")}
+            >
+              戻る
+            </Button>
+          </div>
+        </>
+      </LayoutConverter>
     </div>
   );
 }
