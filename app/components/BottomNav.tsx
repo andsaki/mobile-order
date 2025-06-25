@@ -4,7 +4,7 @@ export default function BottomNav() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white flex justify-between py-2 px-2">
+    <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white flex justify-around py-2 px-4 max-w-md mx-auto">
       <Link
         to="/menu"
         className={`flex flex-col items-center text-xs px-4 py-2 ${
