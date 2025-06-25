@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
 import CartItem from "~/components/CartItem";
+import LayoutConverter from "~/components/LayoutConverter";
 import Modal from "~/components/Modal";
 import { useCart } from "~/hooks/useCart";
 import { CartItem as CartItemType } from "~/types/cartItem";
@@ -54,53 +55,56 @@ export default function CartRoute() {
 
   return (
     <div className="m-4 pb-16">
-      <h1 className="text-2xl font-bold mb-4">カート</h1>
-      {cart.length === 0 ? (
-        <p className="mb-4">カートは空です。</p>
-      ) : (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {cart.map((item) => (
-            <CartItem
-              key={item.id}
-              item={item}
-              updateQuantity={updateQuantity}
-              removeItem={removeItem}
-            />
-          ))}
-        </ul>
-      )}
-      <p className="text-xl font-bold my-4 bg-yellow-400 text-black p-2 rounded-md">
-        合計: {totalPrice}円
-      </p>
-      <div className="flex justify-center space-x-4">
-        <Button
-          variant="primary"
-          onClick={() => (window.location.href = "/menu")}
-        >
-          メニューに戻る
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => {
-            fetcher.submit(
-              { cart: JSON.stringify(cart) },
-              { method: "post", action: "/api/order/route" }
-            );
-          }}
-        >
-          注文する
-        </Button>
-      </div>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          window.location.href = "/orders";
-        }}
-        title="注文完了"
-        message={modalMessage}
-      />
-      <BottomNav />
+      <LayoutConverter title="カート">
+        <>
+          {cart.length === 0 ? (
+            <p className="mb-4">カートは空です。</p>
+          ) : (
+            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {cart.map((item) => (
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  updateQuantity={updateQuantity}
+                  removeItem={removeItem}
+                />
+              ))}
+            </ul>
+          )}
+          <p className="text-xl font-bold my-4 bg-yellow-400 text-black p-2 rounded-md">
+            合計: {totalPrice}円
+          </p>
+          <div className="flex justify-center space-x-4">
+            <Button
+              variant="primary"
+              onClick={() => (window.location.href = "/menu")}
+            >
+              メニューに戻る
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                fetcher.submit(
+                  { cart: JSON.stringify(cart) },
+                  { method: "post", action: "/api/order/route" }
+                );
+              }}
+            >
+              注文する
+            </Button>
+          </div>
+          <Modal
+            isOpen={isModalOpen}
+            onClose={() => {
+              setIsModalOpen(false);
+              window.location.href = "/orders";
+            }}
+            title="注文完了"
+            message={modalMessage}
+          />
+          <BottomNav />
+        </>
+      </LayoutConverter>
     </div>
   );
 }
