@@ -4,10 +4,10 @@ import toast from "react-hot-toast";
 
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
+import CartItem from "~/components/CartItem";
 import Modal from "~/components/Modal";
-import QuantityControl from "~/components/QuantityControl";
 import { useCart } from "~/hooks/useCart";
-import { CartItem } from "~/types/cartItem";
+import { CartItem as CartItemType } from "~/types/cartItem";
 
 export default function CartRoute() {
   const fetcher = useFetcher();
@@ -19,7 +19,7 @@ export default function CartRoute() {
     try {
       const storedCart = sessionStorage.getItem("cart");
       if (storedCart) {
-        const parsedCart = JSON.parse(storedCart) as CartItem[];
+        const parsedCart = JSON.parse(storedCart) as CartItemType[];
         setCart(parsedCart);
       }
     } catch (error) {
@@ -60,36 +60,12 @@ export default function CartRoute() {
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {cart.map((item) => (
-            <li
+            <CartItem
               key={item.id}
-              className="rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300 bg-white"
-            >
-              <div className="flex justify-between">
-                <div className="flex flex-col">
-                  <h3 className="text-xl font-semibold">{item.name}</h3>
-                  <p className="text-gray-800">
-                    単価: {item.price}円 小計: {item.price * item.quantity}円
-                  </p>
-                  <QuantityControl
-                    quantity={item.quantity}
-                    onIncrement={() =>
-                      updateQuantity(item.id, item.quantity + 1)
-                    }
-                    onDecrement={() =>
-                      updateQuantity(item.id, Math.max(1, item.quantity - 1))
-                    }
-                    min={1}
-                  />
-                </div>
-                <Button
-                  variant="danger"
-                  onClick={() => removeItem(item.id)}
-                  className="bg-transparent text-red-600 text-sm self-start mt-2"
-                >
-                  削除
-                </Button>
-              </div>
-            </li>
+              item={item}
+              updateQuantity={updateQuantity}
+              removeItem={removeItem}
+            />
           ))}
         </ul>
       )}
