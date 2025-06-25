@@ -11,7 +11,7 @@ import { CartItem } from "~/types/cartItem";
 
 export default function CartRoute() {
   const fetcher = useFetcher();
-  const { cart, setCart, updateQuantity } = useCart();
+  const { cart, setCart, updateQuantity, removeItem } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
@@ -64,19 +64,30 @@ export default function CartRoute() {
               key={item.id}
               className="rounded-lg shadow-md p-4 cursor-pointer hover:shadow-lg transition duration-300 bg-white"
             >
-              <div className="flex flex-col">
-                <h3 className="text-xl font-semibold">{item.name}</h3>
-                <p className="text-gray-800">
-                  単価: {item.price}円 小計: {item.price * item.quantity}円
-                </p>
-                <QuantityControl
-                  quantity={item.quantity}
-                  onIncrement={() => updateQuantity(item.id, item.quantity + 1)}
-                  onDecrement={() =>
-                    updateQuantity(item.id, Math.max(1, item.quantity - 1))
-                  }
-                  min={1}
-                />
+              <div className="flex justify-between">
+                <div className="flex flex-col">
+                  <h3 className="text-xl font-semibold">{item.name}</h3>
+                  <p className="text-gray-800">
+                    単価: {item.price}円 小計: {item.price * item.quantity}円
+                  </p>
+                  <QuantityControl
+                    quantity={item.quantity}
+                    onIncrement={() =>
+                      updateQuantity(item.id, item.quantity + 1)
+                    }
+                    onDecrement={() =>
+                      updateQuantity(item.id, Math.max(1, item.quantity - 1))
+                    }
+                    min={1}
+                  />
+                </div>
+                <Button
+                  variant="danger"
+                  onClick={() => removeItem(item.id)}
+                  className="bg-transparent text-red-600 text-sm self-start mt-2"
+                >
+                  削除
+                </Button>
               </div>
             </li>
           ))}
