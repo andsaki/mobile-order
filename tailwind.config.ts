@@ -7,7 +7,7 @@ export default {
       colors: {
         primary: "#ff8c00",
         secondary: "#007bff",
-        background: "#e0f2fe", // Sky 100
+        background: "#f3f4f6", // Gray 100
         text: "#000000",
       },
       fontFamily: {
