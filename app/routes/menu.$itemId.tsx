@@ -6,7 +6,7 @@ import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
 import QuantityControl from "~/components/QuantityControl";
 import { API_ENDPOINT } from "~/constants/api";
-import { CartItem } from "~/types/cartItem";
+import { CartItem } from "~/features/cart/types/cartItem";
 import Item from "~/types/item";
 import { fetchJson } from "~/utils/business/fetchJson";
 
