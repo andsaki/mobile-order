@@ -1,32 +1,7 @@
 import { Link } from "@remix-run/react";
 import React from "react";
 
-interface MenuItem {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  categoryId: number;
-  name: string;
-  price: number;
-  description: string;
-  image: {
-    url: string;
-    height: number;
-    width: number;
-  };
-}
-
-interface Category {
-  id: string;
-  categoryId: number;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  revisedAt: string;
-  name: string;
-}
+import { MenuItem, Category } from "~/features/menu/types/item";
 
 interface MenuData {
   categories: Category[];

@@ -1,4 +1,4 @@
-interface Item {
+interface MenuItem {
   id: string;
   createdAt: string;
   updatedAt: string;
@@ -15,4 +15,14 @@ interface Item {
   };
 }
 
-export default Item;
+interface Category {
+  id: string;
+  categoryId: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  revisedAt: string;
+  name: string;
+}
+
+export type { MenuItem, Category };
