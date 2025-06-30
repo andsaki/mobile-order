@@ -6,5 +6,5 @@ export interface MenuData {
 }
 
 export interface MenuProps {
-  menuData?: MenuData;
+  menuData: MenuData;
 }
