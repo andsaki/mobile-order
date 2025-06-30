@@ -1,8 +1,13 @@
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 
-import { CartItem as CartItemType } from "~/types/cartItem";
+import { CartItem as CartItemType } from "~/features/cart/types/cartItem";
 
 import CartItem from "./CartItem";
+jest.mock("../../../components/Button", () => {
+  return jest.fn(({ children, onClick }) => (
+    <button onClick={onClick}>{children}</button>
+  ));
+});
 
 // モックデータ
 const mockItem: CartItemType = {
@@ -75,7 +80,7 @@ describe("CartItem コンポーネント", () => {
   });
 
   test("削除ボタンクリックでアイテムが削除される", () => {
-    const deleteButton = screen.getByRole("button", { name: "削除" });
+    const deleteButton = screen.getByText("削除");
     fireEvent.click(deleteButton);
     expect(mockRemoveItem).toHaveBeenCalledWith("1");
   });
