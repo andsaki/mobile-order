@@ -2,7 +2,7 @@
 import { createCookieSessionStorage, json, Session } from "@remix-run/node";
 import type { LoaderFunction } from "@remix-run/node";
 
-import { CartItem } from "~/types/cartItem";
+import { CartItem } from "~/features/cartItem";
 
 const sessionStorage = createCookieSessionStorage({
   cookie: {

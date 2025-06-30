@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { CartItem } from "~/types/cartItem";
+import { CartItem } from "~/features/cartItem";
 
 /**
  * カートの状態を管理するためのカスタムフック。

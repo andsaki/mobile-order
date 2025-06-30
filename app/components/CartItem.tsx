@@ -1,6 +1,6 @@
 import React from "react";
 
-import { CartItem as CartItemType } from "~/types/cartItem";
+import { CartItem as CartItemType } from "~/features/cartItem";
 
 import Button from "./Button";
 import QuantityControl from "./QuantityControl";

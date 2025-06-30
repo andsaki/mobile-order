@@ -1,5 +1,5 @@
 // app/utils/business/fetchJson.ts (サーバー専用)
-import { API_KEY } from "../../constants/api";
+import { API_KEY } from "~/lib/api";
 
 /**
  * URLからJSONデータを取得する汎用関数
