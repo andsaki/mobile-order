@@ -5,9 +5,9 @@ import toast from "react-hot-toast";
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
 import QuantityControl from "~/components/QuantityControl";
-import { API_ENDPOINT, API_KEY } from "~/constants/api";
-import { CartItem } from "~/types/cartItem";
-import Item from "~/types/item";
+import { CartItem } from "~/features/cartItem";
+import Item from "~/features/item";
+import { API_ENDPOINT, API_KEY } from "~/lib/api";
 
 export async function loader({ params }: { params: { itemId: string } }) {
   const itemId = params.itemId;

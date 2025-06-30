@@ -1,7 +1,7 @@
 // app/utils/domain/api.server.ts (サーバー専用)
 import { json, TypedResponse } from "@remix-run/node";
 
-import { fetchJson } from "../business/fetchJson";
+import { fetchJson } from "../fetchJson";
 
 interface ApiResponse<T> {
   contents: T[];
