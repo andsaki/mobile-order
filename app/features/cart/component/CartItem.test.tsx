@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 
-import { CartItem as CartItemType } from "~/types/cartItem";
+import { CartItem as CartItemType } from "~/features/cart/types/cartItem";
 
 import CartItem from "./CartItem";
 
