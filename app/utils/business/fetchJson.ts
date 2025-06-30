@@ -1,5 +1,7 @@
 // app/utils/business/fetchJson.ts (サーバー専用)
-import { API_KEY } from "../../constants/api";
+import dotenv from "dotenv";
+dotenv.config();
+const API_KEY = process.env.MICROCMS_API_KEY;
 
 /**
  * URLからJSONデータを取得する汎用関数
@@ -7,6 +9,10 @@ import { API_KEY } from "../../constants/api";
  * @returns 指定された型TのPromise
  */
 export async function fetchJson<T>(url: string): Promise<T> {
+  if (!API_KEY) {
+    throw new Error("MICROCMS_API_KEY environment variable is not set");
+  }
+
   const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",

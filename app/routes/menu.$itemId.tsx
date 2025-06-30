@@ -5,24 +5,18 @@ import toast from "react-hot-toast";
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
 import QuantityControl from "~/components/QuantityControl";
-import { API_ENDPOINT, API_KEY } from "~/constants/api";
+import { API_ENDPOINT } from "~/constants/api";
 import { CartItem } from "~/types/cartItem";
 import Item from "~/types/item";
+import { fetchJson } from "~/utils/business/fetchJson";
 
 export async function loader({ params }: { params: { itemId: string } }) {
   const itemId = params.itemId;
-  const response = await fetch(`${API_ENDPOINT}/${itemId}`, {
-    headers: {
-      "Content-Type": "application/json",
-      "X-MICROCMS-API-KEY": API_KEY,
-    },
-  });
+  const item = await fetchJson<Item>(`${API_ENDPOINT}/${itemId}`);
 
-  if (!response.ok) {
-    throw new Response("Not Found", { status: response.status });
+  if (!item) {
+    throw new Response("Not Found", { status: 404 });
   }
-
-  const item = (await response.json()) as Item;
 
   return item;
 }
