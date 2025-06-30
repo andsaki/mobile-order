@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
-import { CartItem } from "~/types/cartItem";
+import { CartItem } from "~/features/cart/types/cartItem";
 
 /**
  * カートの状態を管理するためのカスタムフック。
@@ -9,6 +10,7 @@ import { CartItem } from "~/types/cartItem";
  * @returns {Object} setCart - カートの状態を更新する関数
  * @returns {Object} updateQuantity - カート内のアイテムの数量を更新する関数
  */
+
 export function useCart() {
   const [cart, setCart] = useState<CartItem[]>([]);
 
@@ -40,5 +42,28 @@ export function useCart() {
     });
   };
 
-  return { cart, setCart, updateQuantity, removeItem };
+  const addToCart = (item: CartItem) => {
+    setCart((prevCart) => {
+      const existingItemIndex = prevCart.findIndex(
+        (cartItem) => cartItem.id === item.id
+      );
+
+      let updatedCart;
+      if (existingItemIndex !== -1) {
+        updatedCart = prevCart.map((cartItem, index) =>
+          index === existingItemIndex
+            ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+            : cartItem
+        );
+      } else {
+        updatedCart = [...prevCart, item];
+      }
+
+      sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+      toast.success(`${item.name}をカートに追加しました！`);
+      return updatedCart;
+    });
+  };
+
+  return { cart, setCart, updateQuantity, removeItem, addToCart };
 }

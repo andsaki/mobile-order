@@ -1,80 +1,63 @@
-// app/utils/business/session.server.ts (サーバー専用)
-import { createCookieSessionStorage, json, Session } from "@remix-run/node";
-import type { LoaderFunction } from "@remix-run/node";
+import {
+  createCookieSessionStorage,
+  Session,
+  LoaderFunction,
+  json,
+} from "@remix-run/node";
 
-import { CartItem } from "~/types/cartItem";
+import { CartItem } from "~/features/cart/types/cartItem";
+import { SessionData } from "~/types/session";
 
-const sessionStorage = createCookieSessionStorage({
-  cookie: {
-    name: "__session",
-    httpOnly: true,
-    path: "/",
-    sameSite: "lax",
-    secrets: ["s3cret"],
-    secure: process.env.NODE_ENV === "production",
-  },
-});
+// セッションの保存期間を定義する (例: 1時間)
+const SESSION_DURATION_SECONDS = 60 * 60;
 
-export const { getSession, commitSession, destroySession } = sessionStorage;
+// セッションストレージを作成する
+const { getSession, commitSession, destroySession } =
+  createCookieSessionStorage({
+    cookie: {
+      name: "__session",
+      httpOnly: true,
+      maxAge: SESSION_DURATION_SECONDS,
+      path: "/",
+      sameSite: "lax",
+      secrets: ["s3cr3t"], // 実際のアプリケーションでは環境変数を使用してください
+      secure: process.env.NODE_ENV === "production",
+    },
+  });
 
-declare module "@remix-run/node" {
-  interface SessionData {
-    cart: CartItem[];
-  }
+// セッションからカートを取得するヘルパー関数
+function getCartFromSession(session: Session<SessionData>): CartItem[] {
+  return session.get("cart") || [];
 }
 
-// その後、関数では型安全に使用可能
-export function getCartFromSession(session: Session): CartItem[] {
-  const cartData = session.get("cart");
-  return cartData || [];
+// セッションからテーブルIDを取得するヘルパー関数
+function getTableIdFromSession(session: Session<SessionData>): string {
+  return session.get("tableId") || "";
 }
 
-// セッションから管理者権限を取得するユーティリティ関数
-export function isAdmin(session: Session): boolean {
-  return session.get("isAdmin") === true;
+// セッションから管理者権限を確認するヘルパー関数
+function isAdmin(session: Session<Record<string, unknown>>): boolean {
+  const value = session.get("isAdmin");
+  return typeof value === "boolean" ? value : false;
 }
 
-// 管理者権限を設定するユーティリティ関数
-export function setAdmin(session: Session, isAdmin: boolean): void {
-  session.set("isAdmin", isAdmin);
-}
-
-// セッションからテーブルIDを取得するユーティリティ関数
-export function getTableIdFromSession(session: Session): string | undefined {
-  return session.get("tableId") as string | undefined;
-}
-
-/**
- * テーブルIDをセッションから取得し、URLパラメータから新しいテーブルIDが提供された場合は
- * セッションに保存するローダー関数です。リクエストのURLからテーブルIDを取得し、セッションに
- * 設定することで、ユーザーのテーブル情報を管理します。
- */
-export type TableIdData = {
-  tableId: string | undefined;
-};
-
+// テーブルIDをロードする関数
 export const tableIdLoader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
-  let tableId: string | undefined = getTableIdFromSession(session);
-
-  // eslint-disable-next-line no-console
-  console.log("session tableId:", tableId);
-
-  const searchParams = new URL(request.url).searchParams;
-  const urlTableId = searchParams.get("tableId");
-
-  if (urlTableId !== null && urlTableId.trim() !== "") {
-    tableId = urlTableId;
-    session.set("tableId", tableId);
-    return json(
-      { tableId },
-      {
-        headers: {
-          "Set-Cookie": await commitSession(session),
-        },
-      }
-    );
-  }
-
+  const tableId = getTableIdFromSession(session);
   return json({ tableId });
+};
+
+// テーブルIDデータの型
+export type TableIdData = {
+  tableId: string;
+};
+
+export {
+  commitSession,
+  destroySession,
+  getCartFromSession,
+  getSession,
+  getTableIdFromSession,
+  isAdmin,
 };

@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
+import { LoaderData } from "~/features/order/types/order";
 import {
   getSession,
   getTableIdFromSession,
@@ -46,20 +47,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   return json({ orders });
 };
-
-/* ローダーデータの型を定義する */
-interface LoaderData {
-  orders: Array<{
-    order_id: string;
-    table_id: string;
-    created_at: string;
-    cart_items: Array<{
-      name: string;
-      quantity: number;
-      price: number;
-    }>;
-  }> | null;
-}
 
 export default function Orders() {
   const { orders } = useLoaderData<LoaderData>();
