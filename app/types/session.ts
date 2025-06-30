@@ -1,9 +1,6 @@
-// types/session.ts
-import { CartItem } from "~/types/cartItem";
+import { CartItem } from "~/features/cart/types/cartItem";
 
-declare module "@remix-run/node" {
-  interface SessionData {
-    cart: CartItem[];
-    isAdmin: boolean;
-  }
+export interface SessionData {
+  cart: CartItem[];
+  tableId: string;
 }
