@@ -8,7 +8,7 @@ import LayoutConverter from "~/components/LayoutConverter";
 import {
   getSession,
   getTableIdFromSession,
-} from "~/utils/business/session.server";
+} from "~/lib/business/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const supabaseUrl = process.env.SUPABASE_URL ?? "";

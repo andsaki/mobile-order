@@ -7,8 +7,8 @@ import Button from "~/components/Button";
 import CartItem from "~/components/CartItem";
 import LayoutConverter from "~/components/LayoutConverter";
 import Modal from "~/components/Modal";
-import { useCart } from "~/hooks/useCart";
-import { CartItem as CartItemType } from "~/types/cartItem";
+import { useCart } from "~/features/cart/useCart";
+import { CartItem as CartItemType } from "~/features/cartItem";
 
 export default function CartRoute() {
   const fetcher = useFetcher();

@@ -4,7 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import BottomNav from "~/components/BottomNav";
 import LayoutConverter from "~/components/LayoutConverter";
 import Menu, { MenuItem, Category } from "~/components/Menu";
-import { fetchMenuData } from "~/utils/domain/api.server";
+import { fetchMenuData } from "~/lib/domain/api.server";
 
 interface MenuData {
   categories: Category[];

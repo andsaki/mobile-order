@@ -11,7 +11,7 @@ import {
   getSession,
   commitSession,
   isAdmin,
-} from "~/utils/business/session.server";
+} from "~/lib/business/session.server";
 
 import BottomNav from "../components/BottomNav";
 import Button from "../components/Button";
