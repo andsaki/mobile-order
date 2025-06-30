@@ -1,7 +1,7 @@
 // app/utils/domain/api.server.ts (サーバー専用)
 import { json, TypedResponse } from "@remix-run/node";
 
-const API_KEY = "KOjYGzOL5TlpVlL8YAZdxka6KEPLlDaBtPW2";
+import { fetchJson } from "../business/fetchJson";
 
 interface ApiResponse<T> {
   contents: T[];
@@ -11,40 +11,34 @@ interface ApiResponse<T> {
  * microCMSからメニューアイテムとカテゴリーデータを取得するユーティリティ関数
  * @returns メニューアイテムとカテゴリーデータを含むTypedResponse
  */
+/**
+ * microCMSからアイテムデータを取得するユーティリティ関数
+ * @returns アイテムデータを含むPromise<Item[]>
+ */
+export async function fetchItems<Item>(): Promise<Item[]> {
+  const itemData = await fetchJson<ApiResponse<Item>>(
+    "https://andsakiapi.microcms.io/api/v1/items"
+  );
+  return itemData.contents;
+}
+
+/**
+ * microCMSからメニューアイテムとカテゴリーデータを取得するユーティリティ関数
+ * @returns メニューアイテムとカテゴリーデータを含むTypedResponse
+ */
 export async function fetchMenuData<MenuItem, Category>(): Promise<
   TypedResponse<{ categories: Category[]; items: MenuItem[] }>
 > {
-  const [itemResponse, categoryResponse] = await Promise.all([
-    fetch("https://andsakiapi.microcms.io/api/v1/items", {
-      headers: {
-        "Content-Type": "application/json",
-        "X-MICROCMS-API-KEY": API_KEY,
-      },
-    }),
-    fetch("https://andsakiapi.microcms.io/api/v1/categories", {
-      headers: {
-        "Content-Type": "application/json",
-        "X-MICROCMS-API-KEY": API_KEY,
-      },
-    }),
+  const [itemData, categoryData] = await Promise.all([
+    fetchJson<ApiResponse<MenuItem>>(
+      "https://andsakiapi.microcms.io/api/v1/items"
+    ),
+    fetchJson<ApiResponse<Category>>(
+      "https://andsakiapi.microcms.io/api/v1/categories"
+    ),
   ]);
 
-  if (!itemResponse.ok) {
-    throw new Error(
-      `Items API request failed with status ${itemResponse.status}`
-    );
-  }
-
-  if (!categoryResponse.ok) {
-    throw new Error(
-      `Categories API request failed with status ${categoryResponse.status}`
-    );
-  }
-
-  const itemData = (await itemResponse.json()) as ApiResponse<MenuItem>;
   const items: MenuItem[] = itemData.contents;
-
-  const categoryData = (await categoryResponse.json()) as ApiResponse<Category>;
   const categories: Category[] = categoryData.contents;
 
   return json({ categories, items });
