@@ -3,6 +3,7 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { CartItem as CartItemType } from "~/features/cart/types/cartItem";
 
 import CartItem from "./CartItem";
+jest.mock("~/components/Button", () => jest.fn(() => null));
 
 // モックデータ
 const mockItem: CartItemType = {
