@@ -4,11 +4,11 @@ import toast from "react-hot-toast";
 
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
-import CartItem from "~/components/CartItem";
 import LayoutConverter from "~/components/LayoutConverter";
 import Modal from "~/components/Modal";
-import { useCart } from "~/hooks/useCart";
-import { CartItem as CartItemType } from "~/types/cartItem";
+import CartItem from "~/features/cart/component/CartItem";
+import { useCart } from "~/features/cart/hooks/useCart";
+import { CartItem as CartItemType } from "~/features/cart/types/cartItem";
 
 export default function CartRoute() {
   const fetcher = useFetcher();
