@@ -48,6 +48,11 @@ export const tableIdLoader: LoaderFunction = async ({ request }) => {
   return json({ tableId });
 };
 
+// テーブルIDデータの型
+export type TableIdData = {
+  tableId: string;
+};
+
 export {
   commitSession,
   destroySession,
