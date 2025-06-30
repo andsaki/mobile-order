@@ -23,6 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
     try {
       cart = JSON.parse(cartData) as CartItem[];
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error parsing cart data from request:", error);
       return json({ error: "Invalid cart data" }, { status: 400 });
     }
@@ -36,6 +37,7 @@ export const action: ActionFunction = async ({ request }) => {
     session = await getSession(request.headers.get("Cookie"));
   }
   const sessionTableId = getTableIdFromSession(session);
+  // eslint-disable-next-line no-console
   console.log("Session tableId:", sessionTableId);
 
   const finalTableId =

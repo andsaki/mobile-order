@@ -18,6 +18,7 @@ export const placeOrder = async (cart: CartItem[], tableId: string) => {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
   if (!supabaseUrl || supabaseUrl.trim() === "") {
+    // eslint-disable-next-line no-console
     console.error(
       "Supabase URLが設定されていません。`.env.local`ファイルまたはVercelの環境変数を確認してください。"
     );
@@ -28,6 +29,7 @@ export const placeOrder = async (cart: CartItem[], tableId: string) => {
   }
 
   if (!supabaseKey || supabaseKey.trim() === "") {
+    // eslint-disable-next-line no-console
     console.error(
       "Supabase Anon Keyが設定されていません。`.env.local`ファイルまたはVercelの環境変数を確認してください。"
     );
@@ -40,6 +42,7 @@ export const placeOrder = async (cart: CartItem[], tableId: string) => {
   try {
     new URL(supabaseUrl);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(
       "Supabase URLの形式が無効です。`.env.local`ファイルまたはVercelの環境変数を確認してください。",
       e
@@ -64,6 +67,7 @@ export const placeOrder = async (cart: CartItem[], tableId: string) => {
   ]);
 
   if (error !== null) {
+    // eslint-disable-next-line no-console
     console.error("注文データの保存に失敗しました:", error);
     const errorMessage = error?.message?.includes(
       'relation "orders" does not exist'
@@ -73,6 +77,7 @@ export const placeOrder = async (cart: CartItem[], tableId: string) => {
     return { error: errorMessage, status: 500 };
   }
 
+  // eslint-disable-next-line no-console
   console.log("注文データをデータベースに保存しました:", data);
 
   if (tableId) {
@@ -87,8 +92,10 @@ export const placeOrder = async (cart: CartItem[], tableId: string) => {
       ]);
 
     if (tableError !== null) {
+      // eslint-disable-next-line no-console
       console.error("テーブルの状態更新に失敗しました:", tableError);
     } else {
+      // eslint-disable-next-line no-console
       console.log("テーブルの状態を 'occupied' に更新しました:", tableData);
     }
   }
