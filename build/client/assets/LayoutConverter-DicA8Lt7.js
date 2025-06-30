@@ -1,0 +1,1 @@
+import{j as s}from"./index-3MMm0rG7.js";const r=({title:t,children:e})=>s.jsxs("div",{className:"layout-converter",children:[s.jsx("h1",{className:"text-3xl font-bold mb-4",children:t}),s.jsx("div",{className:"content pb-20",children:e})]});export{r as L};
