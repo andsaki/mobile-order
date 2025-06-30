@@ -3,7 +3,8 @@ import { useLoaderData } from "@remix-run/react";
 
 import BottomNav from "~/components/BottomNav";
 import LayoutConverter from "~/components/LayoutConverter";
-import Menu, { MenuItem, Category } from "~/components/Menu";
+import Menu from "~/features/menu/component/Menu";
+import { MenuItem, Category } from "~/features/menu/types/item";
 import { fetchMenuData } from "~/utils/domain/api.server";
 
 interface MenuData {

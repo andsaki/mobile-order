@@ -1,7 +1,7 @@
 import { json, type ActionFunction } from "@remix-run/node";
 import { createClient } from "@supabase/supabase-js";
 
-import { CartItem } from "~/types/cartItem";
+import { CartItem } from "~/features/cart/types/cartItem";
 import {
   commitSession,
   getSession,

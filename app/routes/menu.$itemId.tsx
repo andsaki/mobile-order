@@ -1,18 +1,17 @@
 import { useLoaderData } from "@remix-run/react";
 import { useState } from "react";
-import toast from "react-hot-toast";
 
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
 import QuantityControl from "~/components/QuantityControl";
 import { API_ENDPOINT } from "~/constants/api";
-import { CartItem } from "~/types/cartItem";
-import Item from "~/types/item";
+import { useCart } from "~/features/cart/hooks/useCart";
+import { MenuItem } from "~/features/menu/types/item";
 import { fetchJson } from "~/utils/business/fetchJson";
 
 export async function loader({ params }: { params: { itemId: string } }) {
   const itemId = params.itemId;
-  const item = await fetchJson<Item>(`${API_ENDPOINT}/${itemId}`);
+  const item = await fetchJson<MenuItem>(`${API_ENDPOINT}/${itemId}`);
 
   if (!item) {
     throw new Response("Not Found", { status: 404 });
@@ -22,8 +21,9 @@ export async function loader({ params }: { params: { itemId: string } }) {
 }
 
 export default function MenuItemRoute() {
-  const item = useLoaderData<Item>();
+  const item = useLoaderData<MenuItem>();
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   return (
     <div className="rounded-lg p-4 cursor-pointer transition duration-300">
@@ -55,7 +55,12 @@ export default function MenuItemRoute() {
             <Button
               variant="primary"
               onClick={() => {
-                addToCart(item, quantity);
+                addToCart({
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                  quantity: quantity,
+                });
               }}
               className="mr-4"
               disabled={quantity < 1}
@@ -73,30 +78,4 @@ export default function MenuItemRoute() {
       </LayoutConverter>
     </div>
   );
-}
-
-/**
- * カートに入れるボタン
- * @param item
- * @param quantity
- */
-function addToCart(item: Item, quantity: number) {
-  const cart = JSON.parse(sessionStorage.getItem("cart") || "[]") as CartItem[];
-  const existingItemIndex = cart.findIndex(
-    (cartItem) => cartItem.id === item.id
-  );
-
-  if (existingItemIndex !== -1) {
-    cart[existingItemIndex].quantity += quantity;
-  } else {
-    cart.push({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: quantity,
-    });
-  }
-
-  sessionStorage.setItem("cart", JSON.stringify(cart));
-  toast.success(`${item.name}をカートに追加しました！`);
 }
