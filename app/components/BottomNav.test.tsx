@@ -25,6 +25,9 @@ import BottomNav from "./BottomNav";
 
 describe("ボトムナビゲーションコンポーネント", () => {
   test("すべてのナビゲーションリンクが表示される", () => {
+    // Suppress React Router future flag warnings
+    jest.spyOn(console, "warn").mockImplementation(() => {});
+
     render(
       <MemoryRouter initialEntries={["/menu"]}>
         <BottomNav />
