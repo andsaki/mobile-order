@@ -7,6 +7,10 @@
       "config": {
         "includeFiles": ["storybook-static/**"]
       }
+    },
+    {
+      "src": "storybook-static/index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
