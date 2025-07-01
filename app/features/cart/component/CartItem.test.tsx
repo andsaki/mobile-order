@@ -4,9 +4,15 @@ import { CartItem as CartItemType } from "~/features/cart/types/cartItem";
 
 import CartItem from "./CartItem";
 jest.mock("../../../components/Button", () => {
-  return jest.fn(({ children, onClick }) => (
-    <button onClick={onClick}>{children}</button>
-  ));
+  return jest.fn(
+    ({
+      children,
+      onClick,
+    }: {
+      children: React.ReactNode;
+      onClick?: () => void;
+    }) => <button onClick={onClick}>{children}</button>
+  );
 });
 
 // モックデータ
