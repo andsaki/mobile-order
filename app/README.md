@@ -67,6 +67,14 @@
 
 ## 開発者向け情報
 
+### Storybook セットアップとデプロイ
+
+Storybook を UI コンポーネントの開発とテストに使用しています。以下の設定と手順で、Storybook をローカル環境で実行したり、Vercel にデプロイしたりできます。
+
+- **ローカルでの実行**: `npm run storybook` コマンドを使用して、Storybook をローカル環境で起動します。これにより、コンポーネントのプレビューとテストが可能です。
+- **ビルドとデプロイ**: Storybook をビルドするには `npm run build-storybook` を実行します。ビルドされたファイルは `storybook-static` ディレクトリに出力されます。
+- **Vercel でのホスティング**: Vercel にデプロイする際、プロジェクトのビルド設定でビルドコマンドとして `npm run build-storybook` を、出力ディレクトリとして `storybook-static` を指定してください。`vercel.json` ファイルには、`/storybook/*` へのリクエストを `storybook-static/index.html` にルーティングする設定が含まれています。これにより、Storybook が特定のパスでアクセス可能になります。
+
 ### API キーの管理
 
 セキュリティを向上させるため、microCMS API キー (`MICROCMS_API_KEY`) はソースコードにハードコードせず、`.env` ファイルで環境変数として管理しています。アプリケーションは `process.env.MICROCMS_API_KEY` を介してこの値にアクセスします。
