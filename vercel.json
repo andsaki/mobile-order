@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "npm run build-storybook",
-  "outputDirectory": "storybook-static",
   "builds": [
     {
       "src": "package.json",
@@ -9,10 +7,6 @@
       "config": {
         "includeFiles": ["storybook-static/**"]
       }
-    },
-    {
-      "src": "storybook-static/index.html",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
