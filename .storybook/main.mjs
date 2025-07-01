@@ -12,19 +12,19 @@ const config = {
     name: "@storybook/react-vite",
     options: {
       builder: {
-        viteConfigPath: "vite.config.ts",
+        viteConfigPath: ".storybook/vite.config.ts",
       },
     },
   },
   async viteFinal(config, { configType }) {
     // Remix Vite pluginを無視する設定を追加
     config.plugins = config.plugins.filter(
-      (plugin) => !plugin.name.toLowerCase().includes("remix")
+      (plugin) => !plugin?.name?.toLowerCase().includes("remix")
     );
     // すべてのプラグインを確認するためにログを出力
     console.log(
       "Vite plugins:",
-      config.plugins.map((plugin) => plugin.name)
+      config.plugins.map((plugin) => plugin?.name || "Unnamed Plugin")
     );
     // Remixに関連する設定を削除
     if (config.resolve) {
