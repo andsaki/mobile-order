@@ -15,6 +15,7 @@ type Story = StoryObj<typeof LayoutConverter>;
 
 export const Default: Story = {
   args: {
-    // 必要に応じてプロパティを追加
+    title: "Sample Layout",
+    children: <div>This is a sample content for LayoutConverter.</div>,
   },
 };
