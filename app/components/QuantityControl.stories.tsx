@@ -1,5 +1,6 @@
-import React, { useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
+
 import QuantityControl from "./QuantityControl";
 
 const meta: Meta<typeof QuantityControl> = {
