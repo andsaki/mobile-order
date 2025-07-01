@@ -10,7 +10,10 @@
     },
     {
       "src": "storybook-static/index.html",
-      "use": "@vercel/static"
+      "use": "@vercel/static",
+      "config": {
+        "buildCommand": "npm run build-storybook"
+      }
     }
   ],
   "routes": [
