@@ -1,4 +1,5 @@
-import type { Preview } from "@storybook/react";
+import { Preview } from "@storybook/react";
+import { BrowserRouter } from "react-router-dom";
 import "../app/tailwind.css";
 
 const preview: Preview = {
@@ -7,10 +8,11 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/i,
+        date: /Date$/,
       },
     },
   },
+  decorators: [(Story) => <BrowserRouter>{Story()}</BrowserRouter>],
 };
 
 export default preview;
