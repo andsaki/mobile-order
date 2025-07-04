@@ -77,13 +77,12 @@ export default function CartRoute() {
             <Button
               variant="primary"
               onClick={() => {
-                console.log("呼ばれた");
                 try {
                   fetcher.submit(
                     { cart: JSON.stringify(cart) },
                     {
                       method: "post",
-                      action: "/features/orders/api/order/route",
+                      action: "/api/order/route",
                     }
                   );
                 } catch (error) {
