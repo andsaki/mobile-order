@@ -16,17 +16,7 @@ export default function CartRoute() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
 
-  useEffect(() => {
-    try {
-      const storedCart = sessionStorage.getItem("cart");
-      if (storedCart) {
-        const parsedCart = JSON.parse(storedCart) as CartItemType[];
-        setCart(parsedCart);
-      }
-    } catch (error) {
-      console.error("Error parsing cart from sessionStorage:", error);
-    }
-  }, [setCart]);
+  // `useCart` フックがカートデータを管理するため、ここでの手動読み込みは不要
 
   // 注文APIのレスポンスを監視し、成功した場合にモーダルを表示し注文一覧ページへ遷移する
   useEffect(() => {
@@ -42,7 +32,9 @@ export default function CartRoute() {
           setCart([]);
           sessionStorage.setItem("cart", JSON.stringify([]));
         } else if ("error" in dataObj && typeof dataObj.error === "string") {
-          toast.error(`注文エラー：${dataObj.error}`);
+          setTimeout(() => {
+            toast.error(`注文エラー：${String(dataObj.error)}`);
+          }, 0);
         }
       }
     }
@@ -85,10 +77,23 @@ export default function CartRoute() {
             <Button
               variant="primary"
               onClick={() => {
-                fetcher.submit(
-                  { cart: JSON.stringify(cart) },
-                  { method: "post", action: "/api/order/route" }
-                );
+                console.log("呼ばれた");
+                try {
+                  fetcher.submit(
+                    { cart: JSON.stringify(cart) },
+                    {
+                      method: "post",
+                      action: "/features/orders/api/order/route",
+                    }
+                  );
+                } catch (error) {
+                  console.error("注文処理中にエラーが発生しました:", error);
+                  setTimeout(() => {
+                    toast.error(
+                      "注文処理中にエラーが発生しました。もう一度お試しください。"
+                    );
+                  }, 0);
+                }
               }}
               className="w-40 text-center"
             >
