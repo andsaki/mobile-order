@@ -41,11 +41,42 @@ function isAdmin(session: Session<Record<string, unknown>>): boolean {
   return typeof value === "boolean" ? value : false;
 }
 
-// テーブルIDをロードする関数
+// テーブルIDをロードし、クエリパラメータからセッションに設定する関数
 export const tableIdLoader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
-  const tableId = getTableIdFromSession(session);
-  return json({ tableId });
+  let tableId = getTableIdFromSession(session);
+
+  // URLからクエリパラメータを取得してセッションに設定
+  const url = new URL(request.url);
+  const queryTableId = url.searchParams.get("tableId");
+  if (queryTableId && queryTableId !== "") {
+    session.set("tableId", queryTableId);
+    tableId = queryTableId;
+  }
+
+  return json(
+    { tableId },
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }
+  );
+};
+
+// テーブルIDをクエリパラメータから取得してセッションに設定するユーティリティ関数
+export const updateTableIdFromQuery = (
+  request: Request,
+  session: Session<SessionData>
+): string => {
+  let tableId = getTableIdFromSession(session);
+  const url = new URL(request.url);
+  const queryTableId = url.searchParams.get("tableId");
+  if (queryTableId && queryTableId !== "") {
+    session.set("tableId", queryTableId);
+    tableId = queryTableId;
+  }
+  return tableId;
 };
 
 // テーブルIDデータの型

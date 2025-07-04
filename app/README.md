@@ -73,7 +73,6 @@ Storybook を UI コンポーネントの開発とテストに使用していま
 
 - **ローカルでの実行**: `npm run storybook` コマンドを使用して、Storybook をローカル環境で起動します。これにより、コンポーネントのプレビューとテストが可能です。
 - **ビルドとデプロイ**: Storybook をビルドするには `npm run build-storybook` を実行します。ビルドされたファイルは `storybook-static` ディレクトリに出力されます。
-- **Vercel でのホスティング**: Vercel にデプロイする際、プロジェクトのビルド設定でビルドコマンドとして `npm run build-storybook` を、出力ディレクトリとして `storybook-static` を指定してください。`vercel.json` ファイルには、`/storybook/*` へのリクエストを `storybook-static/index.html` にルーティングする設定が含まれています。これにより、Storybook が特定のパスでアクセス可能になります。
 
 ### API キーの管理
 
