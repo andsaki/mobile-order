@@ -60,7 +60,9 @@ export function useCart() {
       }
 
       sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-      toast.success(`${item.name}をカートに追加しました！`);
+      setTimeout(() => {
+        toast.success(`${item.name}をカートに追加しました！`);
+      }, 0);
       return updatedCart;
     });
   };
