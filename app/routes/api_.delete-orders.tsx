@@ -40,5 +40,21 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Failed to delete orders" }, { status: 500 });
   }
 
-  return json({ message: "Orders deleted successfully" });
+  // 支払い完了後にテーブルの状態を「清掃が必要」に更新
+  const { error: tableError } = await supabase
+    .from("tables")
+    .update({
+      status: "needs_cleaning",
+      last_updated: new Date().toISOString(),
+    })
+    .eq("table_id", tableId);
+
+  if (tableError) {
+    console.error("Error updating table status:", tableError);
+    return json({ error: "Failed to update table status" }, { status: 500 });
+  }
+
+  return json({
+    message: "Orders deleted and table status updated successfully",
+  });
 };
