@@ -81,7 +81,7 @@ export default function CartRoute() {
                     { cart: JSON.stringify(cart) },
                     {
                       method: "post",
-                      action: "/features/orders/api/order/route",
+                      action: "/api/order/route",
                     }
                   );
                 } catch (error) {
