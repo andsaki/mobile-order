@@ -8,7 +8,6 @@ import LayoutConverter from "~/components/LayoutConverter";
 import Modal from "~/components/Modal";
 import CartItem from "~/features/cart/component/CartItem";
 import { useCart } from "~/features/cart/hooks/useCart";
-import { CartItem as CartItemType } from "~/features/cart/types/cartItem";
 
 export default function CartRoute() {
   const fetcher = useFetcher();
