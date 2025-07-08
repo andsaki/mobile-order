@@ -1,5 +1,6 @@
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import { QRCodeSVG } from "qrcode.react";
+import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 
 import BottomNav from "~/components/BottomNav";
@@ -26,11 +27,15 @@ export default function QRCode() {
         action: "/api/delete-orders",
       }
     );
-    setTimeout(() => {
+  };
+
+  // fetcherの状態を監視して、処理が完了したらメニュー画面に遷移
+  useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data) {
       toast.success("注文履歴が削除されました。");
       window.location.href = "/menu";
-    }, 500);
-  };
+    }
+  }, [fetcher.state, fetcher.data]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 pb-16 flex flex-col items-center justify-center">
@@ -58,8 +63,9 @@ export default function QRCode() {
               variant="primary"
               onClick={handlePaymentComplete}
               className="w-40 text-center"
+              disabled={fetcher.state === "submitting"}
             >
-              支払い完了
+              {fetcher.state === "submitting" ? "処理中..." : "支払い完了"}
             </Button>
           </div>
           <BottomNav />
