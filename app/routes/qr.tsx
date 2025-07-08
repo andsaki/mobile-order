@@ -1,11 +1,11 @@
 import { useLoaderData, useFetcher } from "@remix-run/react";
 import { QRCodeSVG } from "qrcode.react";
-import React, { useEffect } from "react";
-import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
+import { useLoading } from "~/contexts/LoadingContext";
 import {
   tableIdLoader,
   type TableIdData,
@@ -16,10 +16,12 @@ export const loader = tableIdLoader;
 export default function QRCode() {
   const { tableId } = useLoaderData<TableIdData>();
   const fetcher = useFetcher();
+  const { setLoading } = useLoading();
   const qrValue = tableId ? `table:${tableId}` : "no-table-id";
 
   // 支払い完了処理: 注文履歴を削除し、メニュー画面に戻る
   const handlePaymentComplete = () => {
+    setLoading(true);
     fetcher.submit(
       {},
       {
@@ -32,10 +34,9 @@ export default function QRCode() {
   // fetcherの状態を監視して、処理が完了したらメニュー画面に遷移
   useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
-      toast.success("注文履歴が削除されました。");
       window.location.href = "/menu";
     }
-  }, [fetcher.state, fetcher.data]);
+  }, [fetcher.state, fetcher.data, setLoading]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 pb-16 flex flex-col items-center justify-center">
