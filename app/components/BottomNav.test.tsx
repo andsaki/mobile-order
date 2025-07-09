@@ -1,8 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
-import { MENU } from "~/constants/pages";
-
 // Mock Remix modules to avoid ES module issues in Jest
 jest.mock("@remix-run/react", () => ({
   Link: ({
@@ -19,7 +17,7 @@ jest.mock("@remix-run/react", () => ({
     </a>
   ),
   useLocation: () => ({
-    pathname: MENU, // Default to MENU for testing, can be overridden in specific tests
+    pathname: "/menu", // Default to MENU for testing, can be overridden in specific tests
   }),
 }));
 
@@ -31,7 +29,7 @@ describe("ボトムナビゲーションコンポーネント", () => {
     jest.spyOn(console, "warn").mockImplementation(() => {});
 
     render(
-      <MemoryRouter initialEntries={[MENU]}>
+      <MemoryRouter initialEntries={["/menu"]}>
         <BottomNav />
       </MemoryRouter>
     );
