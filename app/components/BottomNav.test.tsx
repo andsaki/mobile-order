@@ -41,7 +41,7 @@ describe("ボトムナビゲーションコンポーネント", () => {
   // Skipping active state tests due to mocking limitations in Jest with Remix's useLocation
   test.skip("メニューがアクティブな場合に青色が適用される", () => {
     render(
-      <MemoryRouter initialEntries={[MENU]}>
+      <MemoryRouter initialEntries={["/menu"]}>
         <BottomNav />
       </MemoryRouter>
     );
@@ -74,11 +74,11 @@ describe("ボトムナビゲーションコンポーネント", () => {
 
   test("リンクが正しいパスに設定されている", () => {
     render(
-      <MemoryRouter initialEntries={[MENU]}>
+      <MemoryRouter initialEntries={["/menu"]}>
         <BottomNav />
       </MemoryRouter>
     );
-    expect(screen.getByText("メニュー")).toHaveAttribute("href", MENU);
+    expect(screen.getByText("メニュー")).toHaveAttribute("href", "/menu");
     expect(screen.getByText("カート")).toHaveAttribute("href", "/cart");
     expect(screen.getByText("履歴")).toHaveAttribute("href", "/orders");
   });
