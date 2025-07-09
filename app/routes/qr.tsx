@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
+import { API_DELETE_ORDERS } from "~/constants/api";
+import { MENU } from "~/constants/pages";
 import { useLoading } from "~/contexts/LoadingContext";
 import {
   tableIdLoader,
@@ -26,7 +28,7 @@ export default function QRCode() {
       {},
       {
         method: "post",
-        action: "/api/delete-orders",
+        action: API_DELETE_ORDERS,
       }
     );
   };
@@ -34,7 +36,7 @@ export default function QRCode() {
   // fetcherの状態を監視して、処理が完了したらメニュー画面に遷移
   useEffect(() => {
     if (fetcher.state === "idle" && fetcher.data) {
-      window.location.href = "/menu";
+      window.location.href = MENU;
     }
   }, [fetcher.state, fetcher.data, setLoading]);
 

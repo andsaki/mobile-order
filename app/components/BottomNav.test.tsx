@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
+import { MENU } from "~/constants/pages";
+
 // Mock Remix modules to avoid ES module issues in Jest
 jest.mock("@remix-run/react", () => ({
   Link: ({
@@ -17,7 +19,7 @@ jest.mock("@remix-run/react", () => ({
     </a>
   ),
   useLocation: () => ({
-    pathname: "/menu", // Default to /menu for testing, can be overridden in specific tests
+    pathname: MENU, // Default to MENU for testing, can be overridden in specific tests
   }),
 }));
 
@@ -29,7 +31,7 @@ describe("ボトムナビゲーションコンポーネント", () => {
     jest.spyOn(console, "warn").mockImplementation(() => {});
 
     render(
-      <MemoryRouter initialEntries={["/menu"]}>
+      <MemoryRouter initialEntries={[MENU]}>
         <BottomNav />
       </MemoryRouter>
     );
@@ -41,7 +43,7 @@ describe("ボトムナビゲーションコンポーネント", () => {
   // Skipping active state tests due to mocking limitations in Jest with Remix's useLocation
   test.skip("メニューがアクティブな場合に青色が適用される", () => {
     render(
-      <MemoryRouter initialEntries={["/menu"]}>
+      <MemoryRouter initialEntries={[MENU]}>
         <BottomNav />
       </MemoryRouter>
     );
@@ -74,11 +76,11 @@ describe("ボトムナビゲーションコンポーネント", () => {
 
   test("リンクが正しいパスに設定されている", () => {
     render(
-      <MemoryRouter initialEntries={["/menu"]}>
+      <MemoryRouter initialEntries={[MENU]}>
         <BottomNav />
       </MemoryRouter>
     );
-    expect(screen.getByText("メニュー")).toHaveAttribute("href", "/menu");
+    expect(screen.getByText("メニュー")).toHaveAttribute("href", MENU);
     expect(screen.getByText("カート")).toHaveAttribute("href", "/cart");
     expect(screen.getByText("履歴")).toHaveAttribute("href", "/orders");
   });

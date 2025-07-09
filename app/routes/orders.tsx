@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
+import { MENU } from "~/constants/pages";
 import { LoaderData } from "~/features/order/types/order";
 import {
   getSession,
@@ -59,7 +60,7 @@ export default function Orders() {
             <p className="text-gray-500">注文がありません。</p>
             <Button
               variant="primary"
-              onClick={() => (window.location.href = "/menu")}
+              onClick={() => (window.location.href = MENU)}
             >
               メニューに戻る
             </Button>
@@ -118,7 +119,7 @@ export default function Orders() {
           <div className="mt-6 flex justify-between">
             <Button
               variant="secondary"
-              onClick={() => (window.location.href = "/menu")}
+              onClick={() => (window.location.href = MENU)}
             >
               メニューに戻る
             </Button>

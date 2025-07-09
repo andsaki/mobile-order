@@ -6,6 +6,7 @@ import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
 import Modal from "~/components/Modal";
+import { MENU } from "~/constants/pages";
 import CartItem from "~/features/cart/component/CartItem";
 import { useCart } from "~/features/cart/hooks/useCart";
 
@@ -68,7 +69,7 @@ export default function CartRoute() {
           <div className="flex justify-center space-x-4">
             <Button
               variant="primary"
-              onClick={() => (window.location.href = "/menu")}
+              onClick={() => (window.location.href = MENU)}
               className="w-40 text-center"
             >
               メニューに戻る
