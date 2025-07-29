@@ -17,7 +17,7 @@ jest.mock("@remix-run/react", () => ({
     </a>
   ),
   useLocation: () => ({
-    pathname: "/menu", // Default to /menu for testing, can be overridden in specific tests
+    pathname: "/menu", // Default to MENU for testing, can be overridden in specific tests
   }),
 }));
 

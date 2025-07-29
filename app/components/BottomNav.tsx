@@ -1,20 +1,22 @@
 import { Link, useLocation } from "@remix-run/react";
 
+import { MENU } from "~/constants/pages";
+
 export default function BottomNav() {
   const location = useLocation();
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white flex justify-around py-2 px-4 max-w-md mx-auto">
       <Link
-        to="/menu"
+        to={MENU}
         className={`flex flex-col items-center text-xs px-4 py-2 ${
-          location.pathname === "/menu" ? "text-blue-400" : ""
+          location.pathname === MENU ? "text-blue-400" : ""
         }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className={`h-7 w-7 mb-1 ${
-            location.pathname === "/menu" ? "stroke-blue-400" : ""
+            location.pathname === MENU ? "stroke-blue-400" : ""
           }`}
           fill="none"
           viewBox="0 0 24 24"
