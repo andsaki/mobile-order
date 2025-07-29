@@ -6,7 +6,11 @@ const config: Config.InitialOptions = {
   setupFilesAfterEnv: ["<rootDir>/app/setupTests.ts"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   transform: {
-    "^.+\\.(ts|tsx)?$": "ts-jest",
+    // eslint-disable-next-line no-useless-escape
+    "^.+\.(ts|tsx)?$": "ts-jest",
+  },
+  moduleNameMapper: {
+    "~/(.*)": "<rootDir>/app/$1",
   },
 };
 
