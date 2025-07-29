@@ -1,0 +1,39 @@
+-- Supabase Row Level Security (RLS) Policies for Development
+--
+-- IMPORTANT: These policies are for development purposes only.
+-- They are intentionally permissive to facilitate initial setup and testing.
+-- Before deploying to production, you MUST review and implement stricter policies
+-- that properly restrict access based on user authentication and roles.
+
+-- ----------------------------------------
+-- Table: orders
+-- ----------------------------------------
+
+-- Allow anonymous users to insert new orders.
+-- In production, you would typically restrict this to authenticated users.
+CREATE POLICY "Allow anonymous inserts for orders"
+ON public.orders FOR INSERT
+WITH CHECK (true);
+
+-- Allow anonymous users to read all orders.
+-- In production, users should only be able to read their own orders.
+-- e.g., USING (auth.uid() = user_id)
+CREATE POLICY "Allow anonymous read access to orders"
+ON public.orders FOR SELECT
+USING (true);
+
+
+-- ----------------------------------------
+-- Table: tables
+-- ----------------------------------------
+
+-- Allow anonymous users to insert new table statuses.
+CREATE POLICY "Allow anonymous inserts for tables"
+ON public.tables FOR INSERT
+WITH CHECK (true);
+
+-- Allow anonymous users to update table statuses.
+CREATE POLICY "Allow anonymous updates for tables"
+ON public.tables FOR UPDATE
+USING (true)
+WITH CHECK (true);
