@@ -18,7 +18,7 @@ describe("QuantityControl", () => {
   });
 
   it('"+"ボタンをクリックするとonIncrementが呼び出される', () => {
-    const mockIncrement = jest.fn();
+    const mockIncrement = vi.fn();
     render(
       <QuantityControl
         quantity={5}
@@ -32,7 +32,7 @@ describe("QuantityControl", () => {
   });
 
   it('"-"ボタンをクリックするとonDecrementが呼び出される', () => {
-    const mockDecrement = jest.fn();
+    const mockDecrement = vi.fn();
     render(
       <QuantityControl
         quantity={5}

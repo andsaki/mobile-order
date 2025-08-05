@@ -63,14 +63,14 @@ describe("ボタンコンポーネント", () => {
   });
 
   test("クリック時にonClickハンドラが呼ばれる", () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     render(<Button onClick={handleClick}>クリック可能ボタン</Button>);
     fireEvent.click(screen.getByText("クリック可能ボタン"));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   test("無効化されている場合はonClickハンドラが呼ばれない", () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn();
     render(
       <Button onClick={handleClick} disabled>
         無効ボタン
