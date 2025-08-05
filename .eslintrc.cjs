@@ -116,5 +116,13 @@ module.exports = {
         node: true,
       },
     },
+
+    // Vitest
+    {
+      files: ["**/*.test.ts", "**/*.test.tsx"],
+      env: {
+        vitest: true,
+      },
+    },
   ],
 };

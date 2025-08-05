@@ -8,15 +8,17 @@ const API_KEY = process.env.MICROCMS_API_KEY;
  * @param url 取得するデータのURL
  * @returns 指定された型TのPromise
  */
-export async function fetchJson<T>(url: string): Promise<T> {
+export async function fetchJson<T>(url: string, options?: RequestInit): Promise<T> {
   if (!API_KEY) {
     throw new Error("MICROCMS_API_KEY environment variable is not set");
   }
 
   const res = await fetch(url, {
+    ...options,
     headers: {
       "Content-Type": "application/json",
       "X-MICROCMS-API-KEY": API_KEY,
+      ...options?.headers,
     },
   });
   if (!res.ok) throw new Error(`Fetch failed with status ${res.status}`);
