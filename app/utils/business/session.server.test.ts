@@ -8,7 +8,7 @@ import {
   updateTableIdFromQuery,
 } from "./session.server";
 
-// createCookieSessionStorage をモック
+// createCookieSessyionStorage をモック
 vi.mock("@remix-run/node", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@remix-run/node")>();
   let sessionData: Record<string, any> = {}; // 各テストでリセットされるようにletで宣言
@@ -106,7 +106,11 @@ describe("Session Utilities", () => {
         createCookieSessionStorage({ cookie: { name: "__session" } }).getSession
       ).mockResolvedValue(mockSession);
 
-      const response = (await tableIdLoader({ request: requestWithCookie, params: {}, context: {} })) as Response;
+      const response = (await tableIdLoader({
+        request: requestWithCookie,
+        params: {},
+        context: {},
+      })) as Response;
       const data = await response.json();
       expect(data).toEqual({ tableId: "session-table-id" });
       expect(response.headers.get("Set-Cookie")).toBeDefined();
@@ -121,7 +125,11 @@ describe("Session Utilities", () => {
         createCookieSessionStorage({ cookie: { name: "__session" } }).getSession
       ).mockResolvedValue(mockSession);
 
-      const response = (await tableIdLoader({ request: requestWithQuery, params: {}, context: {} })) as Response;
+      const response = (await tableIdLoader({
+        request: requestWithQuery,
+        params: {},
+        context: {},
+      })) as Response;
       const data = await response.json();
       expect(data).toEqual({ tableId: "query-table-id" });
       expect(mockSession.get("tableId")).toEqual("query-table-id");

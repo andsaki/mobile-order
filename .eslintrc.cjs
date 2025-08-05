@@ -7,6 +7,7 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
+  plugins: ["vitest"],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
@@ -18,6 +19,7 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
+    vitest: true,
   },
   ignorePatterns: ["!**/.server", "!**/.client"],
 
@@ -31,7 +33,7 @@ module.exports = {
     // React
     {
       files: ["**/*.{js,jsx,ts,tsx}"],
-      plugins: ["react", "jsx-a11y"],
+      plugins: ["react", "jsx-a11y", "vitest"],
       extends: [
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",

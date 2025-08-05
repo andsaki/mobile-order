@@ -1,7 +1,7 @@
 import { vi } from "vitest";
 import { fetchJson } from "./fetchJson";
 
-describe("fetchJson", () => {
+describe("fetchJson 関数", () => {
   const mockResponse = { message: "Success" };
   const mockError = { message: "Error" };
 
@@ -16,7 +16,7 @@ describe("fetchJson", () => {
     vi.restoreAllMocks();
   });
 
-  test("should fetch data successfully", async () => {
+  test("データを正常に取得できる", async () => {
     const data = await fetchJson("/api/test");
     expect(data).toEqual(mockResponse);
     expect(global.fetch).toHaveBeenCalledWith(
@@ -29,7 +29,7 @@ describe("fetchJson", () => {
     );
   });
 
-  test("should fetch data with options", async () => {
+  test("オプション付きでデータを取得できる", async () => {
     const options = { method: "POST", body: JSON.stringify({ key: "value" }) };
     const data = await fetchJson("/api/test", options);
     expect(data).toEqual(mockResponse);
@@ -46,7 +46,7 @@ describe("fetchJson", () => {
     );
   });
 
-  test("should throw an error if response is not ok", async () => {
+  test("レスポンスがokでない場合にエラーをスローする", async () => {
     vi.spyOn(global, "fetch").mockResolvedValue({
       json: () => Promise.resolve(mockError),
       ok: false,
