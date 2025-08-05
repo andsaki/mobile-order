@@ -9,9 +9,5 @@ declare module "@remix-run/node" {
 
 export default defineConfig({
   plugins: [tsconfigPaths()],
-  test: {
-    globals: true,
-    environment: "jsdom",
-    setupFiles: "./app/setupTests.ts",
-  },
+  
 });
