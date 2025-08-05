@@ -5,6 +5,7 @@ import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
 import QuantityControl from "~/components/QuantityControl";
 import { API_ENDPOINT } from "~/constants/api";
+import { MENU } from "~/constants/pages";
 import { useCart } from "~/features/cart/hooks/useCart";
 import { MenuItem } from "~/features/menu/types/item";
 import { fetchJson } from "~/utils/business/fetchJson";
@@ -69,7 +70,7 @@ export default function MenuItemRoute() {
             </Button>
             <Button
               variant="primary"
-              onClick={() => (window.location.href = "/menu")}
+              onClick={() => (window.location.href = MENU)}
             >
               戻る
             </Button>
