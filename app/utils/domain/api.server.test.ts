@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, afterEach, Mock } from "vitest";
 import { fetchItems, fetchMenuData } from "./api.server";
 import { fetchJson } from "../business/fetchJson";
+import { CATEGORIES_API_ENDPOINT } from "../../constants/api";
 
 // fetchJsonのモック
 vi.mock("../business/fetchJson", () => ({
@@ -48,9 +49,7 @@ describe("api.server.ts", () => {
       expect(data.categories).toEqual(mockCategories);
       expect(fetchJson).toHaveBeenCalledTimes(2);
       expect(fetchJson).toHaveBeenCalledWith(expect.any(String));
-      expect(fetchJson).toHaveBeenCalledWith(
-        "https://andsakiapi.microcms.io/api/v1/categories"
-      );
+      expect(fetchJson).toHaveBeenCalledWith(CATEGORIES_API_ENDPOINT);
     });
 
     it("API呼び出しが失敗した場合にエラーをスローすること", async () => {
