@@ -1,5 +1,5 @@
 import { json, type ActionFunction } from "@remix-run/node";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 import {
   getSession,
@@ -28,7 +28,12 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "No table ID found in session" }, { status: 400 });
   }
 
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  const supabase: SupabaseClient | null = supabaseUrl ? createClient(supabaseUrl, supabaseKey) : null;
+
+  if (!supabase) {
+    return json({ error: "データベースが設定されていません。" }, { status: 500 });
+  }
 
   const { error } = await supabase
     .from("orders")

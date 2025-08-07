@@ -1,6 +1,6 @@
 import { json, type LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 import BottomNav from "~/components/BottomNav";
 import Button from "~/components/Button";
@@ -27,11 +27,16 @@ export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
   const tableId = getTableIdFromSession(session);
 
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  const supabase: SupabaseClient | null = supabaseUrl ? createClient(supabaseUrl, supabaseKey) : null;
 
   /* テーブルIDがない場合、空の注文を返す */
   if (!tableId || tableId.trim() === "") {
-    return json({ orders: [] });
+    return json({ orders: [], tableId });
+  }
+
+  if (!supabase) {
+    return json({ error: "データベースが設定されていません。" }, { status: 500 });
   }
 
   /* テーブルIDで注文をフィルタリングする */

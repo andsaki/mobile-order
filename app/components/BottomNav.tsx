@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@remix-run/react";
 
-import { MENU } from "~/constants/pages";
+import { CART, MENU, ORDERS } from "~/constants/pages";
 
 export default function BottomNav() {
   const location = useLocation();
@@ -32,15 +32,15 @@ export default function BottomNav() {
         メニュー
       </Link>
       <Link
-        to="/cart"
+        to={CART as string}
         className={`flex flex-col items-center text-xs px-4 py-2 ${
-          location.pathname === "/cart" ? "text-blue-400" : ""
+          location.pathname === CART ? "text-blue-400" : ""
         }`}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className={`h-7 w-7 mb-1 ${
-            location.pathname === "/cart" ? "stroke-blue-400" : ""
+            location.pathname === CART ? "stroke-blue-400" : ""
           }`}
           fill="none"
           viewBox="0 0 24 24"
@@ -56,9 +56,9 @@ export default function BottomNav() {
         カート
       </Link>
       <Link
-        to="/orders"
+        to={ORDERS as string}
         className={`flex flex-col items-center text-xs px-4 py-2 ${
-          location.pathname === "/orders" ? "text-blue-400" : ""
+          location.pathname === ORDERS ? "text-blue-400" : ""
         }`}
       >
         <svg

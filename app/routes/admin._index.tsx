@@ -12,7 +12,7 @@ import {
 } from "@remix-run/react";
 // app/routes/admin.tsx
 // app/routes/admin.tsx
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
 import BottomNav from "~/components/BottomNav";
@@ -25,7 +25,8 @@ import {
 // Supabase connection setup
 const supabaseUrl = process.env.SUPABASE_URL ?? "";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
-const supabase = createClient(supabaseUrl, supabaseKey);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+const supabase: SupabaseClient | null = supabaseUrl ? createClient(supabaseUrl, supabaseKey) : null;
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
@@ -38,6 +39,17 @@ export const loader: LoaderFunction = async ({ request }) => {
         error: "管理者権限が必要です",
       },
       { status: 403 }
+    );
+  }
+
+  if (!supabase) {
+    return json(
+      {
+        tables: [],
+        isAuthenticated: true,
+        error: "データベースが設定されていません。",
+      },
+      { status: 500 }
     );
   }
 
@@ -87,6 +99,9 @@ export const action: ActionFunction = async ({ request }) => {
       );
     }
 
+    if (!supabase) {
+      return json({ error: "データベースが設定されていません。" }, { status: 500 });
+    }
     // 動的な認証ロジック（Supabaseからアカウントを取得）
     const { data: adminAccounts, error } = await supabase
       .from("admin_accounts")
@@ -136,6 +151,10 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (!tableId || !status) {
     return json({ error: "テーブルIDと状態は必須です" }, { status: 400 });
+  }
+
+  if (!supabase) {
+    return json({ error: "データベースが設定されていません。" }, { status: 500 });
   }
 
   const { data, error } = await supabase

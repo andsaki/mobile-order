@@ -4,7 +4,7 @@ import {
   type ActionFunction,
 } from "@remix-run/node";
 import { useLoaderData, useActionData, Form } from "@remix-run/react";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
 import {
@@ -19,7 +19,8 @@ import Button from "../components/Button";
 // Supabase connection setup
 const supabaseUrl = process.env.SUPABASE_URL ?? "";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
-const supabase = createClient(supabaseUrl, supabaseKey);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+const supabase: SupabaseClient | null = supabaseUrl ? createClient(supabaseUrl, supabaseKey) : null;
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get("Cookie"));
@@ -32,6 +33,17 @@ export const loader: LoaderFunction = async ({ request }) => {
         error: "管理者権限が必要です",
       },
       { status: 403 }
+    );
+  }
+
+  if (!supabase) {
+    return json(
+      {
+        adminAccounts: [],
+        isAuthenticated: true,
+        error: "データベースが設定されていません。",
+      },
+      { status: 500 }
     );
   }
 
@@ -91,6 +103,10 @@ export const action: ActionFunction = async ({ request }) => {
         { error: validationResult.error.issues[0].message },
         { status: 400 }
       );
+    }
+
+    if (!supabase) {
+      return json({ error: "データベースが設定されていません。" }, { status: 500 });
     }
 
     const { error } = await supabase
