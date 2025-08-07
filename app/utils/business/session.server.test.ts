@@ -1,5 +1,6 @@
+import { createCookieSessionStorage } from "@remix-run/node";
 import { vi } from "vitest";
-import { createCookieSessionStorage, json } from "@remix-run/node";
+
 import {
   getCartFromSession,
   getTableIdFromSession,
@@ -16,7 +17,7 @@ vi.mock("@remix-run/node", async (importOriginal) => {
   return {
     ...actual,
     createCookieSessionStorage: vi.fn(() => ({
-      getSession: vi.fn(async (cookieHeader) => {
+      getSession: vi.fn((cookieHeader) => {
         // 各テストの開始時にsessionDataをリセット
         sessionData = {};
         if (cookieHeader) {
@@ -33,8 +34,8 @@ vi.mock("@remix-run/node", async (importOriginal) => {
           data: sessionData, // 内部データにアクセスできるようにする
         };
       }),
-      commitSession: vi.fn(async (session) => JSON.stringify(session.data)),
-      destroySession: vi.fn(async () => ""),
+      commitSession: vi.fn((session) => JSON.stringify(session.data)),
+      destroySession: vi.fn(() => ""),
     })),
     json: vi.fn((data, init) => new Response(JSON.stringify(data), init)),
   };
@@ -146,7 +147,7 @@ describe("Session Utilities", () => {
         params: {},
         context: {},
       })) as Response;
-      const data = await (response as Response).json();
+      const data = await (response).json();
       expect(data).toEqual({ tableId: "" });
       expect(response.headers.get("Set-Cookie")).toBeDefined();
     });

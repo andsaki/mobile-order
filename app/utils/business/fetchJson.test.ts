@@ -1,4 +1,5 @@
 import { vi } from "vitest";
+
 import { fetchJson } from "./fetchJson";
 
 describe("fetchJson 関数", () => {

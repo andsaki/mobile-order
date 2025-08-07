@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, afterEach, Mock } from "vitest";
-import { fetchItems, fetchMenuData } from "./api.server";
-import { fetchJson } from "../business/fetchJson";
+
 import { CATEGORIES_API_ENDPOINT } from "../../constants/api";
+import { fetchJson } from "../business/fetchJson";
+
+import { fetchItems, fetchMenuData } from "./api.server";
 
 // fetchJsonのモック
 vi.mock("../business/fetchJson", () => ({
