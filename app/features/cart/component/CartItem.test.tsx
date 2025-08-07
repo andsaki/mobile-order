@@ -3,16 +3,20 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { CartItem as CartItemType } from "~/features/cart/types/cartItem";
 
 import CartItem from "./CartItem";
-jest.mock("../../../components/Button", () => {
-  return jest.fn(
-    ({
-      children,
-      onClick,
-    }: {
-      children: React.ReactNode;
-      onClick?: () => void;
-    }) => <button onClick={onClick}>{children}</button>
-  );
+vi.mock("../../../components/Button", async () => {
+  const actual = await vi.importActual("../../../components/Button");
+  return {
+    ...actual,
+    default: vi.fn(
+      ({
+        children,
+        onClick,
+      }: {
+        children: React.ReactNode;
+        onClick?: () => void;
+      }) => <button onClick={onClick}>{children}</button>
+    ),
+  };
 });
 
 // モックデータ
@@ -25,8 +29,8 @@ const mockItem: CartItemType = {
 };
 
 // モック関数
-const mockUpdateQuantity = jest.fn();
-const mockRemoveItem = jest.fn();
+const mockUpdateQuantity = vi.fn();
+const mockRemoveItem = vi.fn();
 
 describe("CartItem コンポーネント", () => {
   beforeEach(() => {
@@ -40,7 +44,7 @@ describe("CartItem コンポーネント", () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test("アイテムの詳細が正しく表示される", () => {

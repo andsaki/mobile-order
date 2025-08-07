@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { Mock } from "vitest";
 
 import Button from "./Button";
 
@@ -63,14 +64,14 @@ describe("ボタンコンポーネント", () => {
   });
 
   test("クリック時にonClickハンドラが呼ばれる", () => {
-    const handleClick = jest.fn();
+    const handleClick = vi.fn<() => void>();
     render(<Button onClick={handleClick}>クリック可能ボタン</Button>);
     fireEvent.click(screen.getByText("クリック可能ボタン"));
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 
   test("無効化されている場合はonClickハンドラが呼ばれない", () => {
-    const handleClick = jest.fn();
+    const handleClick: Mock<() => void> = vi.fn();
     render(
       <Button onClick={handleClick} disabled>
         無効ボタン

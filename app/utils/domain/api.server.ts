@@ -1,7 +1,7 @@
 // app/utils/domain/api.server.ts (サーバー専用)
 import { json, TypedResponse } from "@remix-run/node";
 
-import { API_ENDPOINT } from "../../constants/api";
+import { API_ENDPOINT, CATEGORIES_API_ENDPOINT } from "../../constants/api";
 import { fetchJson } from "../business/fetchJson";
 
 interface ApiResponse<T> {
@@ -31,7 +31,7 @@ export async function fetchMenuData<MenuItem, Category>(): Promise<
   const [itemData, categoryData] = await Promise.all([
     fetchJson<ApiResponse<MenuItem>>(API_ENDPOINT),
     fetchJson<ApiResponse<Category>>(
-      "https://andsakiapi.microcms.io/api/v1/categories"
+      CATEGORIES_API_ENDPOINT
     ),
   ]);
 

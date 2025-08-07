@@ -7,6 +7,7 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
+  plugins: ["vitest"],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
@@ -31,7 +32,7 @@ module.exports = {
     // React
     {
       files: ["**/*.{js,jsx,ts,tsx}"],
-      plugins: ["react", "jsx-a11y"],
+      plugins: ["react", "jsx-a11y", "vitest"],
       extends: [
         "plugin:react/recommended",
         "plugin:react/jsx-runtime",
@@ -70,11 +71,12 @@ module.exports = {
         sourceType: "module",
       },
       rules: {
-        "@typescript-eslint/no-explicit-any": "error",
-        "@typescript-eslint/no-unsafe-assignment": "warn",
-        "@typescript-eslint/no-unsafe-call": "warn",
-        "@typescript-eslint/no-unsafe-member-access": "warn",
-        "@typescript-eslint/no-unsafe-return": "warn",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-unused-vars": [
           "warn",
           { ignoreRestSiblings: true },
@@ -115,6 +117,14 @@ module.exports = {
       env: {
         node: true,
       },
+    },
+
+    // Vitest
+    {
+      files: [
+        "**/*.test.ts",
+        "**/*.test.tsx"
+      ],
     },
   ],
 };

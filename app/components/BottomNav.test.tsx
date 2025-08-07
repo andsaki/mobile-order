@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
 // Mock Remix modules to avoid ES module issues in Jest
-jest.mock("@remix-run/react", () => ({
+vi.mock("@remix-run/react", () => ({
   Link: ({
     to,
     children,
@@ -26,7 +26,7 @@ import BottomNav from "./BottomNav";
 describe("ボトムナビゲーションコンポーネント", () => {
   test("すべてのナビゲーションリンクが表示される", () => {
     // Suppress React Router future flag warnings
-    jest.spyOn(console, "warn").mockImplementation(() => {});
+    vi.spyOn(console, "warn").mockImplementation(() => {});
 
     render(
       <MemoryRouter initialEntries={["/menu"]}>
