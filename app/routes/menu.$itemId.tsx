@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import { useState } from "react";
 
 import Button from "~/components/Button";
@@ -8,7 +8,7 @@ import { API_ENDPOINT } from "~/constants/api";
 import { MENU } from "~/constants/pages";
 import { useCart } from "~/features/cart/hooks/useCart";
 import { MenuItem } from "~/features/menu/types/item";
-import { fetchJson } from "~/utils/business/fetchJson";
+import { fetchJson } from "~/utils/api/fetchJson";
 
 export async function loader({ params }: { params: { itemId: string } }) {
   const itemId = params.itemId;
@@ -23,6 +23,7 @@ export async function loader({ params }: { params: { itemId: string } }) {
 
 export default function MenuItemRoute() {
   const item = useLoaderData<MenuItem>();
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
 
@@ -70,7 +71,7 @@ export default function MenuItemRoute() {
             </Button>
             <Button
               variant="primary"
-              onClick={() => (window.location.href = MENU)}
+              onClick={() => navigate(MENU)}
             >
               戻る
             </Button>

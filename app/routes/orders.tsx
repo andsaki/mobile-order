@@ -10,7 +10,7 @@ import { LoaderData } from "~/features/order/types/order";
 import {
   getSession,
   getTableIdFromSession,
-} from "~/utils/business/session.server";
+} from "~/utils/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const supabaseUrl = process.env.SUPABASE_URL ?? "";

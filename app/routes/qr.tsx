@@ -11,7 +11,7 @@ import { useLoading } from "~/contexts/LoadingContext";
 import {
   tableIdLoader,
   type TableIdData,
-} from "~/utils/business/session.server";
+} from "~/utils/session.server";
 
 export const loader = tableIdLoader;
 

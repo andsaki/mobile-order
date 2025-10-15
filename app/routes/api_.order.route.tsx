@@ -7,7 +7,7 @@ import {
   getSession,
   getCartFromSession,
   getTableIdFromSession,
-} from "~/utils/business/session.server";
+} from "~/utils/session.server";
 
 export const action: ActionFunction = async ({ request }) => {
   if (request.method !== "POST") {

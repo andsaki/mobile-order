@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, afterEach, Mock } from "vitest";
 
-import { CATEGORIES_API_ENDPOINT } from "../../constants/api";
-import { fetchJson } from "../business/fetchJson";
+import { CATEGORIES_API_ENDPOINT } from "~/constants/api";
 
-import { fetchItems, fetchMenuData } from "./api.server";
+import { fetchJson } from "./fetchJson";
+import { fetchItems, fetchMenuData } from "./microcms.server";
 
 // fetchJsonのモック
-vi.mock("../business/fetchJson", () => ({
+vi.mock("./fetchJson", () => ({
   fetchJson: vi.fn(),
 }));
 
