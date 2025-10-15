@@ -10,9 +10,9 @@ import {
 } from "@remix-run/react";
 import { Toaster } from "react-hot-toast";
 
-import { tableIdLoader } from "~/utils/business/session.server";
+import { tableIdLoader } from "~/utils/session.server";
 import "./tailwind.css";
-import { type TableIdData } from "~/utils/business/session.server";
+import { type TableIdData } from "~/utils/session.server";
 
 import BottomNav from "./components/BottomNav";
 import Loading from "./components/Loading";

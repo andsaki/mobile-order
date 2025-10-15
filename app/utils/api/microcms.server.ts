@@ -1,8 +1,9 @@
-// app/utils/domain/api.server.ts (サーバー専用)
+// app/utils/api/microcms.server.ts (サーバー専用)
 import { json, TypedResponse } from "@remix-run/node";
 
-import { API_ENDPOINT, CATEGORIES_API_ENDPOINT } from "../../constants/api";
-import { fetchJson } from "../business/fetchJson";
+import { API_ENDPOINT, CATEGORIES_API_ENDPOINT } from "~/constants/api";
+
+import { fetchJson } from "./fetchJson";
 
 interface ApiResponse<T> {
   contents: T[];

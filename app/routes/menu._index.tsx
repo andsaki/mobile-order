@@ -6,8 +6,8 @@ import LayoutConverter from "~/components/LayoutConverter";
 import Menu from "~/features/menu/component/Menu";
 import { MenuItem, Category } from "~/features/menu/types/item";
 import { MenuData } from "~/features/menu/types/menu";
-import { commitSession, getSession } from "~/utils/business/session.server";
-import { fetchMenuData } from "~/utils/domain/api.server";
+import { fetchMenuData } from "~/utils/api/microcms.server";
+import { commitSession, getSession } from "~/utils/session.server";
 
 export async function loader({
   request,

@@ -1,5 +1,5 @@
-import { useFetcher } from "@remix-run/react";
-import { useState, useEffect } from "react";
+import { useFetcher, useNavigate } from "@remix-run/react";
+import { useState, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 
 import BottomNav from "~/components/BottomNav";
@@ -13,6 +13,7 @@ import { useCart } from "~/features/cart/hooks/useCart";
 
 export default function CartRoute() {
   const fetcher = useFetcher();
+  const navigate = useNavigate();
   const { cart, setCart, updateQuantity, removeItem } = useCart();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -41,10 +42,9 @@ export default function CartRoute() {
     }
   }, [fetcher.state, fetcher.data, setCart]); // fetcherの状態とデータが変化するたびにこの効果を実行
 
-  let totalPrice = 0;
-  for (const item of cart) {
-    totalPrice += item.price * item.quantity;
-  }
+  const totalPrice = useMemo(() => {
+    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }, [cart]);
 
   return (
     <div className="m-4 pb-16">
@@ -70,7 +70,7 @@ export default function CartRoute() {
           <div className="flex justify-center space-x-4">
             <Button
               variant="primary"
-              onClick={() => (window.location.href = MENU)}
+              onClick={() => navigate(MENU)}
               className="w-40 text-center"
             >
               メニューに戻る
@@ -104,7 +104,7 @@ export default function CartRoute() {
             isOpen={isModalOpen}
             onClose={() => {
               setIsModalOpen(false);
-              window.location.href = "/orders";
+              navigate("/orders");
             }}
             title="注文完了"
             message={modalMessage}

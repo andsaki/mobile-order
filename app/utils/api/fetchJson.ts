@@ -1,4 +1,4 @@
-// app/utils/business/fetchJson.ts (サーバー専用)
+// app/utils/api/fetchJson.ts (サーバー専用)
 import dotenv from "dotenv";
 dotenv.config();
 const API_KEY = process.env.MICROCMS_API_KEY;

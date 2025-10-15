@@ -27,11 +27,13 @@ export function useCart() {
   }, []);
 
   const updateQuantity = (itemId: string, newQuantity: number) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
+    setCart((prevCart) => {
+      const updatedCart = prevCart.map((item) =>
         item.id === itemId ? { ...item, quantity: newQuantity } : item
-      )
-    );
+      );
+      sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
   };
 
   const removeItem = (itemId: string) => {

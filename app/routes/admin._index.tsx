@@ -20,7 +20,7 @@ import {
   getSession,
   commitSession,
   isAdmin,
-} from "~/utils/business/session.server";
+} from "~/utils/session.server";
 
 // Supabase connection setup
 const supabaseUrl = process.env.SUPABASE_URL ?? "";
