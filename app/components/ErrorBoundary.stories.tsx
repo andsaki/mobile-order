@@ -85,6 +85,7 @@ export const WithResetCallback: Story = {
   args: {
     error: new Error("リセット可能なエラー"),
     resetErrorBoundary: () => {
+      // eslint-disable-next-line no-console
       console.log("Error boundary reset!");
     },
   },
