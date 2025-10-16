@@ -7,10 +7,7 @@ import Button from "~/components/Button";
 import LayoutConverter from "~/components/LayoutConverter";
 import { MENU } from "~/constants/pages";
 import { LoaderData } from "~/features/order/types/order";
-import {
-  getSession,
-  getTableIdFromSession,
-} from "~/utils/session.server";
+import { getSession, getTableIdFromSession } from "~/utils/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const supabaseUrl = process.env.SUPABASE_URL ?? "";
@@ -28,7 +25,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   const tableId = getTableIdFromSession(session);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  const supabase: SupabaseClient | null = supabaseUrl ? createClient(supabaseUrl, supabaseKey) : null;
+  const supabase: SupabaseClient | null = supabaseUrl
+    ? createClient(supabaseUrl, supabaseKey)
+    : null;
 
   /* テーブルIDがない場合、空の注文を返す */
   if (!tableId || tableId.trim() === "") {
@@ -36,7 +35,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   if (!supabase) {
-    return json({ error: "データベースが設定されていません。" }, { status: 500 });
+    return json(
+      { error: "データベースが設定されていません。" },
+      { status: 500 }
+    );
   }
 
   /* テーブルIDで注文をフィルタリングする */
@@ -62,7 +64,7 @@ export default function Orders() {
       <div className="flex flex-col items-center justify-center h-screen">
         <LayoutConverter title="注文一覧">
           <>
-            <p className="text-gray-500">注文がありません。</p>
+            <p className="text-gray-500 mb-2">注文がありません。</p>
             <Button
               variant="primary"
               onClick={() => (window.location.href = MENU)}
