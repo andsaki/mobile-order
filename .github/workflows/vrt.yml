@@ -38,6 +38,8 @@ jobs:
         run: npx reg-suit run
         env:
           REG_NOTIFY_CLIENT_ID: ${{ secrets.REG_NOTIFY_CLIENT_ID }}
+          CI_COMMIT_REF_NAME: ${{ github.head_ref }}
+          CI_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
       - name: Upload screenshots
         if: always()
