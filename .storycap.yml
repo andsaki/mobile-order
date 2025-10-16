@@ -1,0 +1,11 @@
+outDir: __screenshots__
+parallel: 4
+viewport:
+  - width: 375
+    height: 667
+    deviceScaleFactor: 2
+    isMobile: true
+    hasTouch: true
+  - width: 1280
+    height: 800
+    deviceScaleFactor: 2

@@ -15,7 +15,9 @@
     "validate": "run-p \"test\" lint typecheck",
     "build:ci": "npm run build && npm run lint && npm run typecheck",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "screenshot": "storycap --serverCmd \"npm run storybook\" http://localhost:6006",
+    "vrt": "reg-suit run"
   },
   "dependencies": {
     "@remix-run/node": "^2.16.6",
@@ -62,7 +64,10 @@
     "gh-pages": "^6.3.0",
     "jsdom": "^26.1.0",
     "postcss": "^8.4.38",
+    "reg-keygen-git-hash-plugin": "^0.14.5",
+    "reg-suit": "^0.14.5",
     "storybook": "^8.6.14",
+    "storycap": "^5.0.1",
     "tailwindcss": "^3.4.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.1.6",
