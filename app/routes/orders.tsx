@@ -1,5 +1,5 @@
 import { json, type LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 import BottomNav from "~/components/BottomNav";
@@ -58,6 +58,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Orders() {
   const { orders } = useLoaderData<LoaderData>();
+  const navigate = useNavigate();
 
   if (!orders || orders.length === 0) {
     return (
@@ -65,10 +66,7 @@ export default function Orders() {
         <LayoutConverter title="注文一覧">
           <>
             <p className="text-gray-500 mb-2">注文がありません。</p>
-            <Button
-              variant="primary"
-              onClick={() => (window.location.href = MENU)}
-            >
+            <Button variant="primary" onClick={() => navigate(MENU)}>
               メニューに戻る
             </Button>
           </>
@@ -124,16 +122,10 @@ export default function Orders() {
             )}
           </div>
           <div className="mt-6 flex justify-between">
-            <Button
-              variant="secondary"
-              onClick={() => (window.location.href = MENU)}
-            >
+            <Button variant="secondary" onClick={() => navigate(MENU)}>
               メニューに戻る
             </Button>
-            <Button
-              variant="primary"
-              onClick={() => (window.location.href = "/qr")}
-            >
+            <Button variant="primary" onClick={() => navigate("/qr")}>
               QRで支払い
             </Button>
           </div>
