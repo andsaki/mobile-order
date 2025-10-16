@@ -11,11 +11,35 @@ export const parameters = {
     },
   },
   backgrounds: {
-    default: "dark",
+    default: "light",
     values: [
       { name: "light", value: "#ffffff" },
       { name: "dark", value: "#333333" },
     ],
+  },
+  viewport: {
+    viewports: {
+      mobile1: {
+        name: "Mobile (Small)",
+        styles: { width: "375px", height: "667px" },
+        type: "mobile",
+      },
+      mobile2: {
+        name: "Mobile (Medium)",
+        styles: { width: "414px", height: "896px" },
+        type: "mobile",
+      },
+      tablet: {
+        name: "Tablet",
+        styles: { width: "768px", height: "1024px" },
+        type: "tablet",
+      },
+      desktop: {
+        name: "Desktop",
+        styles: { width: "1280px", height: "800px" },
+        type: "desktop",
+      },
+    },
   },
 };
 
