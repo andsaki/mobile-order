@@ -1,5 +1,3 @@
-import { StorybookConfig } from "@storybook/react-vite";
-
 const config = {
   stories: ["../app/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
@@ -16,28 +14,24 @@ const config = {
       },
     },
   },
-  async viteFinal(config, { configType }) {
-    // Remix Vite pluginを無視する設定を追加
+  async viteFinal(config) {
+    // Remix Vite pluginを除外
     config.plugins = config.plugins.filter(
       (plugin) => !plugin?.name?.toLowerCase().includes("remix")
     );
-    // すべてのプラグインを確認するためにログを出力
-    console.log(
-      "Vite plugins:",
-      config.plugins.map((plugin) => plugin?.name || "Unnamed Plugin")
-    );
-    // Remixに関連する設定を削除
+
+    // Remix関連のエイリアスを削除
     if (config.resolve) {
       config.resolve.alias = config.resolve.alias || {};
       delete config.resolve.alias["@remix-run"];
-      // すべてのRemix関連エイリアスを削除
       for (const key in config.resolve.alias) {
         if (key.toLowerCase().includes("remix")) {
           delete config.resolve.alias[key];
         }
       }
     }
-    // サーバー設定を調整
+
+    // サーバー設定の調整
     if (config.server) {
       config.server.middlewareMode = false;
       config.server.fsServe = config.server.fsServe || {};
@@ -51,6 +45,7 @@ const config = {
         "./node_modules",
       ];
     }
+
     return config;
   },
   docs: {

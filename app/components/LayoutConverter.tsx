@@ -11,7 +11,7 @@ const LayoutConverter: React.FC<LayoutConverterProps> = ({
 }) => {
   return (
     <div className="layout-converter">
-      <h1 className="text-3xl font-bold mb-4">{title}</h1>
+      <h1 className="text-3xl font-bold mb-4 text-center">{title}</h1>
       <div className="content pb-20">{children}</div>
     </div>
   );

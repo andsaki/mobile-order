@@ -30,9 +30,15 @@ export default function Button({
   className = "",
 }: ButtonProps) {
   const variantClasses = {
-    primary: "bg-blue-500 hover:bg-blue-600 text-white",
-    secondary: "bg-gray-500 hover:bg-gray-600 text-white",
-    danger: "bg-red-500 hover:bg-red-600 text-white",
+    primary: "bg-blue-500 text-white",
+    secondary: "bg-orange-500 text-white",
+    danger: "bg-red-500 text-white",
+  };
+
+  const hoverClasses = {
+    primary: "hover:bg-blue-600",
+    secondary: "hover:bg-orange-600",
+    danger: "hover:bg-red-600",
   };
 
   const sizeClasses = {
@@ -47,10 +53,10 @@ export default function Button({
       onClick={onClick}
       disabled={disabled}
       className={`rounded font-semibold transition-colors duration-200 ${
-        variantClasses[variant]
-      } ${sizeClasses[size]} ${
-        disabled ? "opacity-50 cursor-not-allowed" : ""
-      } ${className}`}
+        disabled
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : `${variantClasses[variant]} ${hoverClasses[variant]}`
+      } ${sizeClasses[size]} ${className}`}
     >
       {children}
     </button>
