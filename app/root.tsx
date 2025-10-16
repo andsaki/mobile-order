@@ -15,6 +15,7 @@ import "./tailwind.css";
 import { type TableIdData } from "~/utils/session.server";
 
 import BottomNav from "./components/BottomNav";
+import ErrorBoundary from "./components/ErrorBoundary";
 import Loading from "./components/Loading";
 import { LoadingProvider } from "./contexts/LoadingContext";
 
@@ -75,11 +76,4 @@ export default function App() {
   return <Outlet />;
 }
 
-function ErrorBoundary() {
-  return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Oh no!</h1>
-      <p>Looks like something went wrong.</p>
-    </div>
-  );
-}
+export { ErrorBoundary };
