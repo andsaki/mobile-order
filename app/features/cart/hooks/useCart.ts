@@ -62,11 +62,11 @@ export function useCart() {
       }
 
       sessionStorage.setItem("cart", JSON.stringify(updatedCart));
-      setTimeout(() => {
-        toast.success(`${item.name}をカートに追加しました！`);
-      }, 0);
       return updatedCart;
     });
+
+    // setCartの外でトーストを表示することで、重複実行を防ぐ
+    toast.success(`${item.name}をカートに追加しました！`);
   };
 
   return { cart, setCart, updateQuantity, removeItem, addToCart };
