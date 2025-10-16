@@ -20,9 +20,9 @@ describe("ボタンコンポーネント", () => {
 
   test("セカンダリバリアントのクラスが適用される", () => {
     render(<Button variant="secondary">セカンダリボタン</Button>);
-    expect(screen.getByText("セカンダリボタン")).toHaveClass("bg-gray-500");
+    expect(screen.getByText("セカンダリボタン")).toHaveClass("bg-orange-500");
     expect(screen.getByText("セカンダリボタン")).toHaveClass(
-      "hover:bg-gray-600"
+      "hover:bg-orange-600"
     );
     expect(screen.getByText("セカンダリボタン")).toHaveClass("text-white");
   });
@@ -58,7 +58,8 @@ describe("ボタンコンポーネント", () => {
 
   test("無効化されている場合に無効クラスが適用される", () => {
     render(<Button disabled>無効ボタン</Button>);
-    expect(screen.getByText("無効ボタン")).toHaveClass("opacity-50");
+    expect(screen.getByText("無効ボタン")).toHaveClass("bg-gray-300");
+    expect(screen.getByText("無効ボタン")).toHaveClass("text-gray-500");
     expect(screen.getByText("無効ボタン")).toHaveClass("cursor-not-allowed");
     expect(screen.getByText("無効ボタン")).toBeDisabled();
   });
