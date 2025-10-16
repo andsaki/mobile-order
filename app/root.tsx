@@ -14,7 +14,6 @@ import { tableIdLoader } from "~/utils/session.server";
 import "./tailwind.css";
 import { type TableIdData } from "~/utils/session.server";
 
-import BottomNav from "./components/BottomNav";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Loading from "./components/Loading";
 import { LoadingProvider } from "./contexts/LoadingContext";
@@ -56,7 +55,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Toaster />
         <ScrollRestoration />
         <Scripts />
-        <BottomNav />
       </body>
     </html>
   );
