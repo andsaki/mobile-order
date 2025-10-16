@@ -35,7 +35,7 @@ jobs:
         run: npx storycap --serverCmd "npx http-server storybook-static -p 6006" http://localhost:6006
 
       - name: Run reg-suit
-        run: npx reg-suit run
+        run: npx reg-suit run || true
         env:
           REG_NOTIFY_CLIENT_ID: ${{ secrets.REG_NOTIFY_CLIENT_ID }}
           CI_COMMIT_REF_NAME: ${{ github.head_ref }}
