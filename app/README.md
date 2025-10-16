@@ -149,6 +149,64 @@ npm test
 - 定数定義ファイル
 - 設定ファイル
 
+### Visual Regression Testing (VRT)
+
+UI コンポーネントの視覚的な変更を検出するため、reg-suit と Storycap を使用したビジュアルリグレッションテストを導入しています。
+
+#### 仕組み
+
+1. **Storycap** が Storybook のスクリーンショットを撮影
+2. **reg-suit** が前回のスクリーンショットと比較
+3. 差分があれば GitHub の PR にレポートを投稿
+
+#### ローカルでの実行
+
+```bash
+# スクリーンショットを撮影
+npm run screenshot
+
+# VRT を実行（前回のスクリーンショットと比較）
+npm run vrt
+```
+
+#### CI での自動実行
+
+Pull Request が作成されると、GitHub Actions で自動的に VRT が実行されます。
+
+- **ワークフロー**: `.github/workflows/vrt.yml`
+- **設定ファイル**:
+  - `regconfig.json` - reg-suit の設定
+  - `.storycap.yml` - Storycap の設定（ビューポートサイズなど）
+
+#### スクリーンショット設定
+
+2 つのビューポートでスクリーンショットを撮影:
+
+- **モバイル**: 375x667px (2x)
+- **デスクトップ**: 1280x800px (2x)
+
+#### 初回セットアップ
+
+初めて VRT を実行する場合、ベースラインとなるスクリーンショットを作成する必要があります:
+
+```bash
+# Storybook をビルド
+npm run build-storybook
+
+# スクリーンショットを撮影
+npm run screenshot
+
+# VRT を実行（初回はベースラインとして保存される）
+npm run vrt
+```
+
+その後、コミットして push すると、以降の PR で自動的に差分検出が行われます。
+
+#### 差分の確認
+
+- VRT が実行されると、GitHub Actions の Artifacts にスクリーンショットがアップロードされます
+- 差分がある場合、reg-suit のレポートで詳細を確認できます
+
 ## 管理者機能
 
 このアプリケーションには、管理者向けの機能が含まれています。管理者向けの機能には以下のものが含まれます：
